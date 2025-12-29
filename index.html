@@ -4,23 +4,958 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOMA</title>
+    <title>SOMA - Your Gateway to Knowledge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f1f5f9;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--darker);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        #loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .loader-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(99, 102, 241, 0.1);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loader-text {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: var(--primary);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            animation: rotate3d 10s linear infinite;
+        }
+
+        @keyframes rotate3d {
+            0% {
+                transform: rotateY(0deg);
+            }
+
+            100% {
+                transform: rotateY(360deg);
+            }
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 900;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--darker);
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .hero-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation: float-shapes 20s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            bottom: 10%;
+            left: 50%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float-shapes {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            }
+
+            33% {
+                transform: translate(30px, -50px) rotate(120deg);
+                border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+            }
+
+            66% {
+                transform: translate(-20px, 20px) rotate(240deg);
+                border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+            }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            max-width: 900px;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideUp 1s ease-out;
+        }
+
+        .typewriter {
+            font-size: 1.5rem;
+            color: var(--light);
+            margin-bottom: 2rem;
+            min-height: 40px;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            animation: slideUp 1s ease-out 0.3s both;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--light);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        /* Search & Filter Section */
+        .search-section {
+            padding: 3rem 5%;
+            background: var(--dark);
+            position: sticky;
+            top: 80px;
+            z-index: 999;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .search-btn {
+            padding: 1rem 2rem;
+            background: var(--gradient);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.7rem 1.5rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            color: var(--light);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* Resources Section */
+        .resources-section {
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .resource-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.4);
+            border-color: var(--primary);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.3));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .resource-card:hover .card-image::before {
+            transform: translateX(100%);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+        }
+
+        .card-description {
+            color: rgba(241, 245, 249, 0.7);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-badge {
+            padding: 0.3rem 0.8rem;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .card-badge.premium {
+            background: rgba(236, 72, 153, 0.2);
+            color: var(--accent);
+        }
+
+        .card-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .card-btn {
+            flex: 1;
+            padding: 0.7rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .btn-view {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+        }
+
+        .btn-view:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-download {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .btn-download:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            padding: 4rem 5% 2rem;
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(241, 245, 249, 0.7);
+            text-decoration: none;
+            line-height: 1.8;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(99, 102, 241, 0.1);
+            color: rgba(241, 245, 249, 0.5);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .typewriter {
+                font-size: 1.2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <h1>coming soon</h1>
-    <p>we are working hard to bring you the best</p>
-    <p>please follow us on</p>
-    <a href="https://www.facebook.com/">facebook</a>
-    <a href="https://www.instagram.com/">instagram</a>
-    <a href="https://www.twitter.com/">twitter</a>
-    <a href="https://www.linkedin.com/">linkedin</a>
-    <p>copyright © 2025 SOMA. All rights reserved.</p>
-    <p>designed by <a href="https://www.facebook.com/">SOMA</a></p>
-    <p>all rights reserved</p>
-    <p>powered by <a href="https://www.facebook.com/">SOMA</a></p>
-    <p>all rights reserved</p>
-    <p>all rights reserved</p>
-</body>
+    <!-- Loader -->
+    <div id="loader">
+        <svg class="loader-logo" viewBox="0 0 100 100">
+            <defs>
+                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <circle cx="50" cy="50" r="45" fill="none" stroke="url(#logoGradient)" stroke-width="3" />
+            <text x="50" y="60" font-size="40" font-weight="bold" fill="url(#logoGradient)"
+                text-anchor="middle">S</text>
+        </svg>
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Loading Excellence...</div>
+    </div>
 
-</html>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo-container">
+                <svg class="logo" viewBox="0 0 100 100">
+                    <defs>
+                        <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="url(#logoGrad)" stroke-width="3" />
+                    <text x="50" y="60" font-size="40" font-weight="bold" fill="url(#logoGrad)"
+                        text-anchor="middle">S</text>
+                </svg>
+                <span class="logo-text">SOMA</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#books">Books</a></li>
+                <li><a href="#papers">Past Papers</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg">
+            <div class="floating-shapes">
+                <div class="shape"></div>
+                <div class="shape"></div>
+                <div class="shape"></div>
+            </div>
+        </div>
+        <div class="hero-content">
+            <h1>Welcome to SOMA</h1>
+            <div class="typewriter" id="typewriter"></div>
+            <div class="cta-buttons">
+                <a href="#books" class="btn btn-primary">Explore Books</a>
+                <a href="#papers" class="btn btn-secondary">Browse Papers</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search & Filter -->
+    <section class="search-section">
+        <div class="search-container">
+            <div class="search-bar">
+                <input type="text" class="search-input" id="searchInput"
+                    placeholder="Search books, papers, subjects...">
+                <button class="search-btn" onclick="performSearch()">Search</button>
+            </div>
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="books">Books</button>
+                <button class="filter-btn" data-filter="papers">Past Papers</button>
+                <button class="filter-btn" data-filter="free">Free</button>
+                <button class="filter-btn" data-filter="premium">Premium</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section class="resources-section" id="books">
+        <h2 class="section-title">Featured Resources</h2>
+        <div class="resources-grid" id="resourcesGrid">
+            <!-- Resources will be dynamically loaded here -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About SOMA</h3>
+                <p>Your premier destination for educational resources. We provide quality books and past papers to help
+                    you excel in your academic journey.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <p><a href="#books">Books</a></p>
+                <p><a href="#papers">Past Papers</a></p>
+                <p><a href="#about">About Us</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Owner & Developer</h3>
+                <p>Built with passion by:</p>
+                <p><a href="https://elishastraton.org" target="_blank">Elisha Straton</a></p>
+                <p>For inquiries and support, visit our website for contact information.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="https://elishastraton.org" target="_blank" class="social-link">🌐</a>
+                    <a href="#" class="social-link">📧</a>
+                    <a href="#" class="social-link">📱</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 SOMA Educational Platform. All rights reserved. | Developed by <a
+                    href="https://elishastraton.org" target="_blank">Elisha Straton</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample data structure - Replace with your Google Drive links
+        const resources = [
+            {
+                id: 1,
+                title: "Advanced Mathematics",
+                description: "Complete guide to calculus and algebra",
+                type: "books",
+                category: "premium",
+                price: "$9.99",
+                thumbnail: "📐",
+                driveLink: "YOUR_GOOGLE_DRIVE_LINK_HERE",
+                previewLink: "YOUR_PREVIEW_LINK_HERE"
+            },
+            {
+                id: 2,
+                title: "Physics Past Papers 2023",
+                description: "Collection of physics examination papers",
+                type: "papers",
+                category: "free",
+                price: "Free",
+                thumbnail: "⚛️",
+                driveLink: "YOUR_GOOGLE_DRIVE_LINK_HERE",
+                previewLink: "YOUR_PREVIEW_LINK_HERE"
+            },
+            {
+                id: 3,
+                title: "Chemistry Fundamentals",
+                description: "Essential chemistry concepts and practices",
+                type: "books",
+                category: "free",
+                price: "Free",
+                thumbnail: "🧪",
+                driveLink: "YOUR_GOOGLE_DRIVE_LINK_HERE",
+                previewLink: "YOUR_PREVIEW_LINK_HERE"
+            },
+            {
+                id: 4,
+                title: "Biology Comprehensive Guide",
+                description: "In-depth study of biological sciences",
+                type: "books",
+                category: "premium",
+                price: "$12.99",
+                thumbnail: "🧬",
+                driveLink: "YOUR_GOOGLE_DRIVE_LINK_HERE",
+                previewLink: "YOUR_PREVIEW_LINK_HERE"
+            },
+            {
+                id: 5,
+                title: "Mathematics Past Papers 2022",
+                description: "Complete set of math examination papers",
+                type: "papers",
+                category: "free",
+                price: "Free",
+                thumbnail: "📊",
+                driveLink: "YOUR_GOOGLE_DRIVE_LINK_HERE",
+                previewLink: "YOUR_PREVIEW_LINK_HERE"
+            },
+            {
+                id: 6,
+                title: "English Literature Masterclass",
+                description: "Classic and modern literary analysis",
+                type: "books",
+                category: "premium",
+                price: "$8.99",
+                thumbnail: "📚",
+                driveLink: "YOUR_GOOGLE_DRIVE_LINK_HERE",
+                previewLink: "YOUR_PREVIEW_LINK_HERE"
+            }
+        ];
+
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 2000);
+        });
+
+        // Typewriter effect
+        const phrases = [
+            "Your Gateway to Knowledge",
+            "Excellence in Education",
+            "Empowering Students Worldwide",
+            "Learn. Grow. Succeed."
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function typeWriter() {
+            const element = document.getElementById('typewriter');
+            const currentPhrase = phrases[phraseIndex];
+
+            if (isDeleting) {
+                element.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                element.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 50 : 100;
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(typeWriter, typeSpeed);
+        }
+
+        typeWriter();
+
+        // Render resources
+        function renderResources(filteredResources = resources) {
+            const grid = document.getElementById('resourcesGrid');
+            grid.innerHTML = '';
+
+            filteredResources.forEach((resource, index) => {
+                const card = document.createElement('div');
+                card.className = 'resource-card';
+                card.style.animationDelay = `${index * 0.1}s`;
+
+                const isPremium = resource.category === 'premium';
+
+                card.innerHTML = `
+                    <div class="card-image">
+                        ${resource.thumbnail}
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${resource.title}</h3>
+                        <p class="card-description">${resource.description}</p>
+                        <div class="card-meta">
+                            <span class="card-badge ${isPremium ? 'premium' : ''}">${resource.type}</span>
+                            <span class="card-price">${resource.price}</span>
+                        </div>
+                        <div class="card-actions">
+                            ${!isPremium ? `<button class="card-btn btn-view" onclick="viewResource('${resource.previewLink}')">Preview</button>` : ''}
+                            <button class="card-btn btn-download" onclick="downloadResource('${resource.driveLink}', ${isPremium})">${isPremium ? 'Purchase' : 'Download'}</button>
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+                let filtered = resources;
+
+                if (filter !== 'all') {
+                    if (filter === 'books' || filter === 'papers') {
+                        filtered = resources.filter(r => r.type === filter);
+                    } else {
+                        filtered = resources.filter(r => r.category === filter);
+                    }
+                }
+
+                renderResources(filtered);
+            });
+        });
+
+        // Search functionality
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = resources.filter(r =>
+                r.title.toLowerCase().includes(searchTerm) ||
+                r.description.toLowerCase().includes(searchTerm)
+            );
+            renderResources(filtered);
+        }
+
+        document.getElementById('searchInput').addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                performSearch();
+            } else {
+                performSearch();
+            }
+        });
