@@ -2161,11 +2161,19 @@
         }
 
         // Loader
+        const hideLoader = () => {
+            const loader = document.getElementById('loader');
+            if (loader && !loader.classList.contains('hidden')) {
+                loader.classList.add('hidden');
+            }
+        };
+
         window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').classList.add('hidden');
-            }, 2000);
+            setTimeout(hideLoader, 500); // Short buffer to ensure smooth transition
         });
+
+        // Force hide after 3 seconds (User requested max duration)
+        setTimeout(hideLoader, 3000);
 
         // Start typewriter
         setTimeout(typeWriter, 500);
