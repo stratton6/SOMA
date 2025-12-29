@@ -1467,7 +1467,7 @@
     <header>
         <nav role="navigation" aria-label="Main Navigation">
             <div class="logo-container">
-                <img src="logo1.png" alt="SOMA logo" class="logo">
+                <img src="logo.png" alt="SOMA logo" class="logo">
                 <span class="logo-text">SOMA</span>
             </div>
             <ul class="nav-links">
@@ -2070,7 +2070,8 @@
             if (driveLink) {
                 const link = document.createElement('a');
                 link.href = driveLink;
-                link.download = driveLink.split('/').pop();
+                link.setAttribute('download', driveLink.split('/').pop());
+                link.setAttribute('target', '_blank'); // Helps on mobile to not freeze the current page
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);

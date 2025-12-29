@@ -7,20 +7,9 @@ const urlsToCache = [
   '/person.png',
   '/person1.png',
   '/manifest.json',
+  '/manifest.json',
   // Add other assets you want to cache
-  'Advanced Mathematics Form Five.pdf',
-  'PHYSICS 1 - Exam n Answers - MSOMIBORA.COM (9).pdf',
-  'PHYSICS 1 - Exam n Answers - MSOMIBORA.COM_025954.pdf',
-  'PHYSICS 1 - Exam n Answers - MSOMIBORA.COM_2_030128.pdf',
-  'PHYSICS 1 - Exam n Answers - MSOMIBORA.COM_4_030111.pdf',
-  'Physics 1 - Exam n Answers - MsomiBora.com_6_030030.pdf',
-  'PHYSICS 1 - WazaElimu.com (3).pdf',
-  'PHYSICS F5 Wazaelimu.com -1.pdf',
-  'PHYSICS F6 tie mryghalis com .pdf',
-  'physics notes mastering 2_250625_115443.pdf',
-  'PHYSICS-1.pdf',
-  'S CHAND XI COMPLETE.pdf',
-  'S CHANDS XII.pdf'
+  // PDFs are too large to cache effectively on initial load
 ];
 
 self.addEventListener('install', event => {
