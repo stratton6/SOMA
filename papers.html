@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOMA - Past Papers</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#00d4ff">
+    <meta name="description" content="Access our collection of past examination papers.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+
+    <!-- Loader -->
+    <div id="loader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Loading Papers...</div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav role="navigation" aria-label="Main Navigation">
+            <div class="logo-container">
+                <img src="logo.png" alt="SOMA logo" class="logo">
+                <span class="logo-text">SOMA</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="books.html">Books</a></li>
+                <li><a href="papers.html" class="active" style="color: var(--primary);">Past Papers</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" aria-label="theme switch" />
+                    <div class="slider round"></div>
+                </label>
+            </div>
+            <div class="search-btn-wrapper">
+                <button id="search-btn" aria-label="search button">🔍</button>
+            </div>
+            <div class="hamburger" role="button" aria-label="open menu" aria-expanded="false">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Papers Content -->
+    <div id="main-content" style="padding-top: 100px;">
+        <section class="search-section">
+            <div class="search-container">
+                <div class="search-bar">
+                    <input type="text" class="search-input" id="papersSearchInput" placeholder="Search papers...">
+                    <div class="search-icon" onclick="performSearch('papers')">🔍</div>
+                    <div class="search-suggestions" id="papersSearchSuggestions"></div>
+                </div>
+                <div class="filter-dropdown">
+                    <select id="papersFilter" onchange="filterResources(this.value, 'papers')">
+                        <option value="all">All Subjects</option>
+                        <option value="physics">Physics</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section class="resources-section">
+            <h2 class="section-title">Available Past Papers</h2>
+            <div class="resources-list" id="papersList">
+                <!-- Papers will load here via script.js -->
+            </div>
+            <a href="index.html" class="back-btn">← Back to Home</a>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About SOMA</h3>
+                <p>Your premier destination for educational resources.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <p><a href="books.html">Books</a></p>
+                <p><a href="papers.html">Past Papers</a></p>
+                <p><a href="index.html#contact">Contact</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <div class="social-links">
+                    <a href="#" class="social-link">🌐</a>
+                    <a href="#" class="social-link">📧</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 SOMA. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Search Modal -->
+    <div id="search-modal" role="dialog" aria-modal="true">
+        <div class="search-modal-content">
+            <span class="close-search-modal">&times;</span>
+            <h2>Search SOMA</h2>
+            <input type="text" id="search-modal-input" placeholder="Search...">
+            <div id="search-modal-results"></div>
+        </div>
+    </div>
+
+    <a href="#" class="back-to-top">↑</a>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderResources(allResources.papers, 'papers');
+        });
+    </script>
+</body>
+
+</html>
