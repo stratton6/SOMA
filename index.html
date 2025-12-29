@@ -418,7 +418,7 @@
         /* Resources Section */
         .resources-section {
             padding: 5rem 5%;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
@@ -432,78 +432,64 @@
             background-clip: text;
         }
 
-        .resources-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        .resources-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .resource-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             gap: 2rem;
         }
 
-        .resource-card {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.4s;
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            cursor: pointer;
-            position: relative;
-        }
-
-        .resource-card:hover {
-            transform: translateY(-10px) rotateX(5deg);
-            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.4);
+        .resource-item:hover {
+            background: rgba(99, 102, 241, 0.1);
             border-color: var(--primary);
+            transform: translateX(5px);
         }
 
-        .card-image {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.3));
+        .resource-info {
+            flex: 1;
+        }
+
+        .resource-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card-image::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s;
-        }
-
-        .resource-card:hover .card-image::before {
-            transform: translateX(100%);
-        }
-
-        .card-content {
-            padding: 1.5rem;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
+            gap: 1rem;
             margin-bottom: 0.5rem;
+        }
+
+        .resource-icon {
+            font-size: 2rem;
+        }
+
+        .resource-title {
+            font-size: 1.2rem;
+            font-weight: 700;
             color: var(--light);
         }
 
-        .card-description {
-            color: rgba(241, 245, 249, 0.7);
-            margin-bottom: 1rem;
+        .resource-description {
+            color: rgba(241, 245, 249, 0.6);
             font-size: 0.95rem;
+            margin-bottom: 0.5rem;
         }
 
-        .card-meta {
+        .resource-meta {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
-        .card-badge {
+        .resource-badge {
             padding: 0.3rem 0.8rem;
             background: rgba(99, 102, 241, 0.2);
             border-radius: 20px;
@@ -512,50 +498,61 @@
             font-weight: 600;
         }
 
-        .card-badge.premium {
+        .resource-badge.papers {
             background: rgba(236, 72, 153, 0.2);
             color: var(--accent);
         }
 
-        .card-price {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        .card-actions {
+        .resource-actions {
             display: flex;
-            gap: 0.5rem;
+            gap: 1rem;
         }
 
-        .card-btn {
-            flex: 1;
-            padding: 0.7rem;
+        .list-btn {
+            padding: 0.8rem 1.5rem;
             border: none;
             border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            white-space: nowrap;
         }
 
-        .btn-view {
+        .btn-preview {
             background: rgba(99, 102, 241, 0.2);
             color: var(--primary);
         }
 
-        .btn-view:hover {
+        .btn-preview:hover {
             background: var(--primary);
             color: white;
+            transform: scale(1.05);
         }
 
-        .btn-download {
+        .btn-download-item {
             background: var(--gradient);
             color: white;
         }
 
-        .btn-download:hover {
+        .btn-download-item:hover {
             transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .resource-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .resource-actions {
+                width: 100%;
+            }
+
+            .list-btn {
+                flex: 1;
+            }
         }
 
         /* Footer */
@@ -638,8 +635,17 @@
                 display: none;
             }
 
-            .resources-grid {
-                grid-template-columns: 1fr;
+            .resource-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .resource-actions {
+                width: 100%;
+            }
+
+            .list-btn {
+                flex: 1;
             }
         }
     </style>
@@ -728,8 +734,8 @@
 
     <!-- Resources Section -->
     <section class="resources-section" id="books">
-        <h2 class="section-title">Featured Resources</h2>
-        <div class="resources-grid" id="resourcesGrid">
+        <h2 class="section-title">Educational Resources</h2>
+        <div class="resources-list" id="resourcesList">
             <!-- Resources will be dynamically loaded here -->
         </div>
     </section>
@@ -966,43 +972,46 @@
 
         typeWriter();
 
-        // Render resources
+        // Render resources as list
         function renderResources(filteredResources = resources) {
-            const grid = document.getElementById('resourcesGrid');
-            grid.innerHTML = '';
+            const list = document.getElementById('resourcesList');
+            list.innerHTML = '';
 
             if (filteredResources.length === 0) {
-                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 2rem; color: rgba(241, 245, 249, 0.6);">No resources found. Try a different search or filter.</p>';
+                list.innerHTML = '<div style="text-align: center; padding: 3rem; color: rgba(241, 245, 249, 0.6); font-size: 1.1rem;">No resources found. Try a different search or filter.</div>';
                 return;
             }
 
             filteredResources.forEach((resource, index) => {
-                const card = document.createElement('div');
-                card.className = 'resource-card';
-                card.style.animationDelay = `${index * 0.1}s`;
+                const item = document.createElement('div');
+                item.className = 'resource-item';
+                item.style.animationDelay = `${index * 0.05}s`;
 
-                const isPremium = resource.category === 'premium';
                 const typeLabel = resource.type === 'books' ? '📖 Book' : '📄 Past Paper';
+                const categoryLabel = resource.category === 'premium' ? 'Premium' : 'Free';
 
-                card.innerHTML = `
-                    <div class="card-image">
-                        ${resource.thumbnail}
+                item.innerHTML = `
+                    <div class="resource-info">
+                        <div class="resource-header">
+                            <span class="resource-icon">${resource.thumbnail}</span>
+                            <div>
+                                <h3 class="resource-title">${resource.title}</h3>
+                            </div>
+                        </div>
+                        <p class="resource-description">${resource.description}</p>
+                        <div class="resource-meta">
+                            <span class="resource-badge">${typeLabel}</span>
+                            <span class="resource-badge">${categoryLabel}</span>
+                            <span class="resource-badge" style="background: rgba(236, 72, 153, 0.2); color: var(--accent);">${resource.price}</span>
+                        </div>
                     </div>
-                    <div class="card-content">
-                        <h3 class="card-title">${resource.title}</h3>
-                        <p class="card-description">${resource.description}</p>
-                        <div class="card-meta">
-                            <span class="card-badge ${isPremium ? 'premium' : ''}">${typeLabel}</span>
-                            <span class="card-price">${resource.price}</span>
-                        </div>
-                        <div class="card-actions">
-                            <button class="card-btn btn-view" onclick="viewResource('${resource.previewLink}')">👁️ Preview</button>
-                            <button class="card-btn btn-download" onclick="downloadResource('${resource.driveLink}', ${isPremium})">⬇️ ${isPremium ? 'Get' : 'Download'}</button>
-                        </div>
+                    <div class="resource-actions">
+                        <button class="list-btn btn-preview" onclick="viewResource('${resource.previewLink}')">👁️ Preview</button>
+                        <button class="list-btn btn-download-item" onclick="downloadResource('${resource.driveLink}', ${resource.category === 'premium'})">⬇️ Download</button>
                     </div>
                 `;
 
-                grid.appendChild(card);
+                list.appendChild(item);
             });
         }
 
@@ -1146,13 +1155,13 @@
             });
         }, observerOptions);
 
-        // Observe all resource cards
+        // Observe all resource items
         setTimeout(() => {
-            document.querySelectorAll('.resource-card').forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                card.style.transition = 'all 0.6s ease-out';
-                observer.observe(card);
+            document.querySelectorAll('.resource-item').forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-20px)';
+                item.style.transition = 'all 0.6s ease-out';
+                observer.observe(item);
             });
         }, 100);
     </script>
