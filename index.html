@@ -1534,13 +1534,34 @@
                     animation: fadeIn 0.3s ease-out;
                 `;
                 
+                const fileName = previewLink.split('/').pop();
+                
                 modal.innerHTML = `
                     <div style="position: relative; width: 100%; max-width: 900px; max-height: 90vh; background: var(--darker); border: 2px solid var(--primary); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 0 60px rgba(0, 212, 255, 0.4);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background: rgba(0, 212, 255, 0.05); border-bottom: 2px solid var(--primary);">
-                            <h2 style="color: white; margin: 0; font-size: 1.5rem;">Document Preview</h2>
-                            <button onclick="this.closest('.preview-modal').remove()" style="background: var(--primary); color: var(--darker); border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 24px; cursor: pointer; transition: all 0.3s; font-weight: bold;">×</button>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(255, 0, 110, 0.1) 100%); border-bottom: 2px solid var(--primary);">
+                            <div>
+                                <h2 style="color: white; margin: 0 0 5px 0; font-size: 1.5rem; font-weight: 900;">📄 ${fileName}</h2>
+                                <p style="color: rgba(224, 224, 224, 0.7); margin: 0; font-size: 0.9rem;">PDF Document</p>
+                            </div>
+                            <button onclick="this.closest('.preview-modal').remove()" style="background: var(--primary); color: var(--darker); border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 24px; cursor: pointer; transition: all 0.3s; font-weight: bold; flex-shrink: 0;">×</button>
                         </div>
-                        <iframe src="${previewLink}" style="flex: 1; border: none; width: 100%;"></iframe>
+                        <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px; flex-direction: column; text-align: center;">
+                            <div style="font-size: 80px; margin-bottom: 20px; animation: float 3s ease-in-out infinite;">📑</div>
+                            <h3 style="color: var(--light); font-size: 1.5rem; margin-bottom: 10px; font-weight: 900;">Preview Ready</h3>
+                            <p style="color: rgba(224, 224, 224, 0.8); margin-bottom: 30px; max-width: 500px;">This document is ready to download and view. Click the button below to open it in your PDF viewer.</p>
+                            <button onclick="downloadResource('${previewLink}'); this.closest('.preview-modal').remove();" style="padding: 1rem 2.5rem; background: linear-gradient(135deg, #00d4ff 0%, #ff006e 50%, #ffbe0b 100%); color: var(--darker); border: none; border-radius: 50px; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4); letter-spacing: 1px;">⬇️ Download & Open</button>
+                        </div>
+                        <div style="padding: 20px; background: rgba(0, 212, 255, 0.05); border-top: 2px solid var(--primary); display: flex; justify-content: space-around; align-items: center;">
+                            <div style="text-align: center;">
+                                <p style="color: var(--primary); font-weight: 700; margin: 0;">PDF File</p>
+                                <p style="color: rgba(224, 224, 224, 0.7); margin: 5px 0 0 0; font-size: 0.9rem;">High Quality</p>
+                            </div>
+                            <div style="width: 2px; height: 40px; background: var(--primary); opacity: 0.3;"></div>
+                            <div style="text-align: center;">
+                                <p style="color: var(--primary); font-weight: 700; margin: 0;">Free Access</p>
+                                <p style="color: rgba(224, 224, 224, 0.7); margin: 5px 0 0 0; font-size: 0.9rem;">No Registration</p>
+                            </div>
+                        </div>
                     </div>
                 `;
                 
