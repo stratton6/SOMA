@@ -1,0 +1,21 @@
+{
+  "name": "SOMA - Your Gateway to Knowledge",
+  "short_name": "SOMA",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#050812",
+  "theme_color": "#00d4ff",
+  "description": "Your premier destination for educational resources. We provide quality books and past papers to help you excel in your academic journey.",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo1.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

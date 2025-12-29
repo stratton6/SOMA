@@ -1,15 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOMA - Your Gateway to Knowledge</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#00d4ff">
+    <meta name="description"
+        content="SOMA is your gateway to knowledge, providing quality books and past papers to help you excel in your academic journey.">
+    <meta name="keywords"
+        content="SOMA, education, books, past papers, study, learning, academic, knowledge, physics, mathematics">
+    <meta name="author" content="Elisha Straton Kimario">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        .skip-to-main {
+            position: absolute;
+            left: -10000px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+
+        .skip-to-main:focus {
+            position: static;
+            width: auto;
+            height: auto;
+            overflow: visible;
+            clip: auto;
+            color: black;
+            background-color: white;
+            padding: 1em;
+            margin: 1em;
+            text-decoration: none;
+            z-index: 100001;
         }
 
         :root {
@@ -20,8 +50,26 @@
             --darker: #050812;
             --light: #ffffff;
             --text: #e0e0e0;
+            --text-muted: rgba(224, 224, 224, 0.8);
+            --header-bg: rgba(5, 8, 18, 0.95);
+            --search-bg: linear-gradient(180deg, rgba(5, 8, 18, 0.98) 0%, rgba(26, 15, 46, 0.98) 100%);
+            --hero-bg: linear-gradient(180deg, var(--darker) 0%, #1a0f2e 100%);
             --gradient: linear-gradient(135deg, #00d4ff 0%, #ff006e 50%, #ffbe0b 100%);
             --gradient-soft: linear-gradient(135deg, #00d4ff 0%, #ff006e 100%);
+        }
+
+        [data-theme="light"] {
+            --primary: #007bff;
+            --secondary: #dc3545;
+            --accent: #ffc107;
+            --dark: #f8f9fa;
+            --darker: #e9ecef;
+            --light: #212529;
+            --text: #212529;
+            --text-muted: #555555;
+            --header-bg: rgba(255, 255, 255, 0.95);
+            --search-bg: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+            --hero-bg: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
         }
 
         html {
@@ -87,6 +135,7 @@
         }
 
         @keyframes float {
+
             0%,
             100% {
                 transform: translateY(0px);
@@ -114,7 +163,7 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(5, 8, 18, 0.95);
+            background: var(--header-bg);
             backdrop-filter: blur(20px);
             padding: 1rem 5%;
             z-index: 1000;
@@ -211,6 +260,145 @@
             transition: all 0.3s ease;
         }
 
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+        }
+
+        input:checked+.slider {
+            background-color: var(--primary);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(26px);
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        .search-btn-wrapper {
+            margin-left: 1rem;
+        }
+
+        #search-btn {
+            background: transparent;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        #search-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1002;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-modal-content {
+            background: var(--dark);
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .close-search-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            color: var(--light);
+            cursor: pointer;
+        }
+
+        #search-modal-input {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 5px;
+            border: 2px solid var(--primary);
+            background: var(--darker);
+            color: var(--light);
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        #search-modal-results {
+            margin-top: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .resource-type-badge {
+            background: var(--secondary);
+            color: var(--darker);
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        .highlight {
+            animation: highlight-animation 2s ease-in-out;
+        }
+
+        @keyframes highlight-animation {
+            0% {
+                background-color: rgba(255, 190, 11, 0.5);
+            }
+
+            100% {
+                background-color: transparent;
+            }
+        }
+
         /* Page Container */
         .page {
             display: none;
@@ -274,7 +462,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(180deg, var(--darker) 0%, #1a0f2e 100%);
+            background: var(--hero-bg);
             position: relative;
             overflow: hidden;
             padding-top: 80px;
@@ -458,7 +646,7 @@
         /* Search & Filter Section */
         .search-section {
             padding: 3rem 5%;
-            background: linear-gradient(180deg, rgba(5, 8, 18, 0.98) 0%, rgba(26, 15, 46, 0.98) 100%);
+            background: var(--search-bg);
             position: sticky;
             top: 80px;
             z-index: 999;
@@ -492,7 +680,8 @@
         }
 
         .search-input::placeholder {
-            color: rgba(224, 224, 224, 0.5);
+            color: var(--text-muted);
+            opacity: 0.7;
         }
 
         .search-input:focus {
@@ -555,16 +744,31 @@
             background: rgba(0, 212, 255, 0.1);
             border: 2px solid var(--primary);
             border-radius: 50px;
-            color: var(--light);
+            color: var(--text);
+            /* Changed to var(--text) for better visibility in light mode */
             cursor: pointer;
             transition: all 0.3s;
             font-weight: 700;
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%2300d4ff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
             background-repeat: no-repeat;
             background-position: right 1rem center;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+            /* Added box-shadow */
+        }
+
+        .filter-dropdown select option {
+            background-color: var(--darker);
+            color: #e0e0e0;
+            /* Always light text in dark bg */
+            padding: 10px;
+        }
+
+        [data-theme="light"] .filter-dropdown select option {
+            background-color: #ffffff;
+            color: #212529;
         }
 
         .filter-dropdown select:hover {
@@ -704,7 +908,7 @@
         }
 
         .resource-description {
-            color: rgba(224, 224, 224, 0.8);
+            color: var(--text-muted);
             font-size: 1rem;
             margin-bottom: 1rem;
             font-weight: 500;
@@ -785,6 +989,32 @@
         .btn-download-item:hover {
             transform: translateY(-3px);
             box-shadow: 0 15px 50px rgba(0, 212, 255, 0.5);
+        }
+
+        .btn-share {
+            background: rgba(255, 190, 11, 0.2);
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .btn-share:hover {
+            background: var(--accent);
+            color: var(--darker);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 190, 11, 0.4);
+        }
+
+        .btn-copy {
+            background: rgba(0, 212, 255, 0.2);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-copy:hover {
+            background: var(--primary);
+            color: var(--darker);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
         }
 
         /* Contact Section */
@@ -948,7 +1178,7 @@
 
         /* Footer */
         footer {
-            background: linear-gradient(180deg, rgba(5, 8, 18, 0.98) 0%, rgba(26, 15, 46, 0.98) 100%);
+            background: var(--search-bg);
             padding: 4rem 5% 2rem;
             border-top: 2px solid rgba(0, 212, 255, 0.2);
             margin-top: 5rem;
@@ -1046,6 +1276,70 @@
             transform: translateX(-5px);
         }
 
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: var(--darker);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #cookie-consent-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--dark);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1001;
+            border-top: 2px solid var(--primary);
+            transform: translateY(100%);
+            transition: transform 0.5s ease-in-out;
+        }
+
+        #cookie-consent-banner.visible {
+            transform: translateY(0);
+        }
+
+        #cookie-consent-banner p {
+            margin: 0;
+            color: var(--text);
+        }
+
+        #cookie-consent-banner a {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        #cookie-accept-btn {
+            background: var(--primary);
+            color: var(--darker);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
         @media (max-width: 992px) {
             .hero-content {
                 flex-direction: column;
@@ -1140,10 +1434,18 @@
                 margin-top: 1rem;
             }
         }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
     <!-- Loader -->
     <div id="loader">
         <svg class="loader-logo" viewBox="0 0 100 100">
@@ -1163,7 +1465,7 @@
 
     <!-- Header -->
     <header>
-        <nav>
+        <nav role="navigation" aria-label="Main Navigation">
             <div class="logo-container">
                 <img src="logo1.png" alt="SOMA logo" class="logo">
                 <span class="logo-text">SOMA</span>
@@ -1174,7 +1476,16 @@
                 <li><a href="#" onclick="showPage('papers')">Past Papers</a></li>
                 <li><a href="#" onclick="showPage('contact')">Contact</a></li>
             </ul>
-            <div class="hamburger">
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" aria-label="theme switch" />
+                    <div class="slider round"></div>
+                </label>
+            </div>
+            <div class="search-btn-wrapper">
+                <button id="search-btn" aria-label="search button">🔍</button>
+            </div>
+            <div class="hamburger" role="button" aria-label="open menu" aria-expanded="false">
                 <div class="line1"></div>
                 <div class="line2"></div>
                 <div class="line3"></div>
@@ -1183,7 +1494,7 @@
     </header>
 
     <!-- HOME PAGE -->
-    <div id="home" class="page active">
+    <div id="home" class="page active" id="main-content">
         <!-- Hero Section -->
         <section class="hero" id="home-section">
             <div class="hero-bg">
@@ -1195,7 +1506,7 @@
             </div>
             <div class="hero-content">
                 <div class="hero-image">
-                    <img src="person.png" alt="Person">
+                    <img src="person.png" alt="Person" loading="lazy">
                 </div>
                 <div class="hero-text">
                     <h1>Welcome to SOMA</h1>
@@ -1332,6 +1643,7 @@
                             <input type="text" id="subject" name="subject" required placeholder="What's this about?">
                         </div>
 
+
                         <div class="form-group">
                             <label for="message">Message</label>
                             <textarea id="message" name="message" required
@@ -1356,9 +1668,9 @@
             </div>
             <div class="footer-section">
                 <h3>Quick Links</h3>
-                <p><a href="#" onclick="showPage('books')">Books</a></p>
-                <p><a href="#" onclick="showPage('papers')">Past Papers</a></p>
-                <p><a href="#" onclick="showPage('contact')">Contact</a></p>
+                <p><a href="#books" onclick="showPage('books')" class="footer-link">Books</a></p>
+                <p><a href="#papers" onclick="showPage('papers')" class="footer-link">Past Papers</a></p>
+                <p><a href="#contact" onclick="showPage('contact')" class="footer-link">Contact</a></p>
             </div>
             <div class="footer-section">
                 <h3>Owner & Developer</h3>
@@ -1382,6 +1694,34 @@
         </div>
     </footer>
 
+    <div id="404" class="page">
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>404</h1>
+                    <p>Page Not Found</p>
+                    <a href="#" onclick="showPage('home')" class="btn btn-primary">Go to Home</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="search-modal" role="dialog" aria-modal="true">
+        <div class="search-modal-content">
+            <span class="close-search-modal" role="button" aria-label="close search modal">&times;</span>
+            <h2>Search the Website</h2>
+            <input type="text" id="search-modal-input" placeholder="Search for anything...">
+            <div id="search-modal-results"></div>
+        </div>
+    </div>
+
+    <div id="cookie-consent-banner" role="alert" aria-live="polite">
+        <p>This website uses cookies to ensure you get the best experience. By continuing to use this site, you agree to
+            our <a href="#">cookie policy</a>.</p>
+        <button id="cookie-accept-btn">Accept</button>
+    </div>
+
+    <a href="#" class="back-to-top">↑</a>
     <script>
         // Resources Data
         const allResources = {
@@ -1539,7 +1879,12 @@
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
-            document.getElementById(pageId).classList.add('active');
+            const page = document.getElementById(pageId);
+            if (page) {
+                page.classList.add('active');
+            } else {
+                document.getElementById('404').classList.add('active');
+            }
             window.scrollTo(0, 0);
 
             if (pageId === 'books') {
@@ -1563,12 +1908,13 @@
             resources.forEach((resource, index) => {
                 const item = document.createElement('div');
                 item.className = 'resource-item';
+                item.id = resource.id;
                 item.style.animationDelay = `${index * 0.05}s`;
 
                 item.innerHTML = `
                     <div class="resource-info">
                         <div class="resource-header">
-                            <span class="resource-icon">${resource.thumbnail}</span>
+                            <span class="resource-icon" loading="lazy">${resource.thumbnail}</span>
                             <h3 class="resource-title">${resource.title}</h3>
                         </div>
                         <p class="resource-description">${resource.description}</p>
@@ -1580,6 +1926,7 @@
                         <button class="list-btn btn-preview" onclick="viewResource('${resource.previewLink}')" title="Preview this resource">👁️ Preview</button>
                         <button class="list-btn btn-download-item" onclick="downloadResource('${resource.driveLink}')" title="Download this resource">⬇️ Download</button>
                         <button class="list-btn btn-share" onclick="shareResource('${resource.title}', '${resource.driveLink}')" title="Share this resource">📤 Share</button>
+                        <button class="list-btn btn-copy" onclick="copyToClipboard('${resource.driveLink}')" title="Copy link to clipboard">📋 Copy</button>
                     </div>
                 `;
 
@@ -1678,19 +2025,22 @@
                 const fileName = previewLink.split('/').pop();
 
                 modal.innerHTML = `
-                    <div style="position: relative; width: 100%; max-width: 900px; max-height: 90vh; background: var(--darker); border: 2px solid var(--primary); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 0 60px rgba(0, 212, 255, 0.4);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(255, 0, 110, 0.1) 100%); border-bottom: 2px solid var(--primary);">
+                    <div style="position: relative; width: 95%; max-width: 1600px; height: 90vh; background: var(--darker); border: 2px solid var(--primary); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 0 60px rgba(0, 212, 255, 0.4);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(255, 0, 110, 0.1) 100%); border-bottom: 2px solid var(--primary);">
                             <div>
                                 <h2 style="color: white; margin: 0 0 5px 0; font-size: 1.5rem; font-weight: 900;">📄 ${fileName}</h2>
                                 <p style="color: rgba(224, 224, 224, 0.7); margin: 0; font-size: 0.9rem;">PDF Document</p>
                             </div>
-                            <button onclick="this.closest('.preview-modal').remove()" style="background: var(--primary); color: var(--darker); border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 24px; cursor: pointer; transition: all 0.3s; font-weight: bold; flex-shrink: 0;">×</button>
+                            <div>
+                                <button onclick="toggleFullScreen()" style="background: var(--primary); color: var(--darker); border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 24px; cursor: pointer; transition: all 0.3s; font-weight: bold; flex-shrink: 0; margin-right: 10px;">⛶</button>
+                                <button onclick="printPDF('${previewLink}')" style="background: var(--primary); color: var(--darker); border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 24px; cursor: pointer; transition: all 0.3s; font-weight: bold; flex-shrink: 0; margin-right: 10px;">⎙</button>
+                                <button onclick="this.closest('.preview-modal').remove()" style="background: var(--primary); color: var(--darker); border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 24px; cursor: pointer; transition: all 0.3s; font-weight: bold; flex-shrink: 0;">×</button>
+                            </div>
                         </div>
                         <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px; flex-direction: column; text-align: center;">
-                            <div style="font-size: 80px; margin-bottom: 20px; animation: float 3s ease-in-out infinite;">📑</div>
-                            <h3 style="color: var(--light); font-size: 1.5rem; margin-bottom: 10px; font-weight: 900;">Preview Ready</h3>
-                            <p style="color: rgba(224, 224, 224, 0.8); margin-bottom: 30px; max-width: 500px;">This document is ready to download and view. Click the button below to open it in your PDF viewer.</p>
-                            <button onclick="downloadResource('${previewLink}'); this.closest('.preview-modal').remove();" style="padding: 1rem 2.5rem; background: linear-gradient(135deg, #00d4ff 0%, #ff006e 50%, #ffbe0b 100%); color: var(--darker); border: none; border-radius: 50px; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4); letter-spacing: 1px;">⬇️ Download & Open</button>
+                            <iframe src="${previewLink}" style="width: 100%; height: 100%; border: none;" title="PDF Preview">
+                                <p>Your browser does not support iframes.</p>
+                            </iframe>
                         </div>
                         <div style="padding: 20px; background: rgba(0, 212, 255, 0.05); border-top: 2px solid var(--primary); display: flex; justify-content: space-around; align-items: center;">
                             <div style="text-align: center;">
@@ -1738,9 +2088,26 @@
                 }).then(() => {
                     console.log('Thanks for sharing!');
                 })
-                .catch(console.error);
+                    .catch(console.error);
             } else {
-                navigator.clipboard.writeText(url).then(() => {
+                navigator.clipboard.writeText(window.location.href + url).then(() => {
+                    alert('Link copied to clipboard');
+                });
+            }
+        }
+
+        // Share Resource
+        function shareResource(title, url) {
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    url: url
+                }).then(() => {
+                    console.log('Thanks for sharing!');
+                })
+                    .catch(console.error);
+            } else {
+                navigator.clipboard.writeText(window.location.href + url).then(() => {
                     alert('Link copied to clipboard');
                 });
             }
@@ -1822,12 +2189,186 @@
         hamburger.addEventListener('click', (e) => {
             e.stopPropagation();
             navLinks.classList.toggle('nav-active');
+            const expanded = navLinks.classList.contains('nav-active');
+            hamburger.setAttribute('aria-expanded', expanded);
         });
 
         document.addEventListener('click', (e) => {
             if (navLinks.classList.contains('nav-active') && !navLinks.contains(e.target) && !hamburger.contains(e.target)) {
                 navLinks.classList.remove('nav-active');
             }
+        });
+
+        // Back to top button
+        const backToTopButton = document.querySelector('.back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Cookie Consent
+        const cookieBanner = document.getElementById('cookie-consent-banner');
+        const cookieAcceptBtn = document.getElementById('cookie-accept-btn');
+
+        if (!localStorage.getItem('cookieConsent')) {
+            setTimeout(() => {
+                cookieBanner.classList.add('visible');
+            }, 2000);
+        }
+
+        cookieAcceptBtn.addEventListener('click', () => {
+            cookieBanner.classList.remove('visible');
+            localStorage.setItem('cookieConsent', 'true');
+        });
+
+        // Theme Switch
+        const themeSwitch = document.getElementById('checkbox');
+        const currentTheme = localStorage.getItem('theme');
+
+        if (currentTheme) {
+            document.documentElement.setAttribute('data-theme', currentTheme);
+
+            if (currentTheme === 'light') {
+                themeSwitch.checked = true;
+            }
+        }
+
+        function switchTheme(e) {
+            if (e.target.checked) {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        themeSwitch.addEventListener('change', switchTheme, false);
+
+        // Search Modal
+        const searchBtn = document.getElementById('search-btn');
+        const searchModal = document.getElementById('search-modal');
+        const closeSearchModal = document.querySelector('.close-search-modal');
+        const searchModalInput = document.getElementById('search-modal-input');
+        const searchModalResults = document.getElementById('search-modal-results');
+
+        searchBtn.addEventListener('click', () => {
+            searchModal.style.display = 'flex';
+        });
+
+        closeSearchModal.addEventListener('click', () => {
+            searchModal.style.display = 'none';
+        });
+
+        searchModal.addEventListener('click', (e) => {
+            if (e.target === searchModal) {
+                searchModal.style.display = 'none';
+            }
+        });
+
+        searchModalInput.addEventListener('input', () => {
+            const searchTerm = searchModalInput.value.toLowerCase();
+            searchModalResults.innerHTML = '';
+
+            if (searchTerm.length === 0) {
+                return;
+            }
+
+            const allContent = [];
+            for (const type in allResources) {
+                allContent.push(...allResources[type]);
+            }
+
+            const filtered = allContent.filter(r =>
+                r.title.toLowerCase().includes(searchTerm) ||
+                r.description.toLowerCase().includes(searchTerm)
+            );
+
+            if (filtered.length > 0) {
+                filtered.forEach(r => {
+                    const item = document.createElement('div');
+                    item.className = 'suggestion-item';
+                    item.innerHTML = `${r.title} <span class="resource-type-badge">${r.type}</span>`;
+                    item.onclick = () => {
+                        showPage(r.type);
+                        setTimeout(() => {
+                            const element = document.getElementById(r.id);
+                            if (element) {
+                                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                element.classList.add('highlight');
+                                setTimeout(() => {
+                                    element.classList.remove('highlight');
+                                }, 2000);
+                            }
+                        }, 500);
+                        searchModal.style.display = 'none';
+                    };
+                    searchModalResults.appendChild(item);
+                });
+            } else {
+                searchModalResults.innerHTML = '<div class="suggestion-item">No results found.</div>';
+            }
+        });
+
+        // Copy to Clipboard
+        function copyToClipboard(url) {
+            navigator.clipboard.writeText(window.location.href + url).then(() => {
+                alert('Link copied to clipboard');
+            });
+        }
+
+        function printPDF(url) {
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = url;
+            document.body.appendChild(iframe);
+            iframe.contentWindow.print();
+        }
+
+        function toggleFullScreen() {
+            const modal = document.querySelector('.preview-modal');
+            if (!document.fullscreenElement) {
+                modal.requestFullscreen().catch(err => {
+                    alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+
+        // Smooth scroll for footer links
+        document.querySelectorAll('.footer-link').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
         });
     </script>
 </body>
