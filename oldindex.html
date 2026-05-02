@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOMA - Your Gateway to Knowledge</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#00d4ff">
+    <meta name="description"
+        content="SOMA is your gateway to knowledge, providing quality books and past papers to help you excel in your academic journey.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+
+    <!-- Loader -->
+    <div id="loader">
+        <svg class="loader-logo" viewBox="0 0 100 100">
+            <defs>
+                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#ff006e;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <circle cx="50" cy="50" r="45" fill="none" stroke="url(#logoGradient)" stroke-width="3" />
+            <text x="50" y="60" font-size="40" font-weight="bold" fill="url(#logoGradient)"
+                text-anchor="middle">S</text>
+        </svg>
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Loading Excellence...</div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav role="navigation" aria-label="Main Navigation">
+            <div class="logo-container">
+                <img src="logo.png" alt="SOMA logo" class="logo">
+                <span class="logo-text">SOMA</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active" style="color: var(--primary);">Home</a></li>
+                <li><a href="books.html">Books</a></li>
+                <li><a href="papers.html">Past Papers</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" aria-label="theme switch" />
+                    <div class="slider round"></div>
+                </label>
+            </div>
+            <div class="search-btn-wrapper">
+                <button id="search-btn" aria-label="search button">🔍</button>
+            </div>
+            <div class="hamburger" role="button" aria-label="open menu" aria-expanded="false">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <!-- Hero Section -->
+    <section class="hero" id="home-section">
+        <div class="hero-bg">
+            <div class="floating-shapes">
+                <div class="shape"></div>
+                <div class="shape"></div>
+                <div class="shape"></div>
+            </div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-image">
+                <img src="person.png" alt="Person" loading="lazy">
+            </div>
+            <div class="hero-text">
+                <h1>Welcome to SOMA</h1>
+                <div class="typewriter" id="typewriter"></div>
+                <div class="cta-buttons">
+                    <a href="books.html" class="btn btn-primary">📚 Explore Books</a>
+                    <a href="papers.html" class="btn btn-secondary">📄 Browse Papers</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2>Contact Information</h2>
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div class="contact-details">
+                        <h3>Location</h3>
+                        <p>Arusha, Tanzania</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">👨‍💼</div>
+                    <div class="contact-details">
+                        <h3>Owner & Developer</h3>
+                        <p><strong>Elisha Straton Kimario</strong></p>
+                        <p>Creative Developer & Designer</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">🌐</div>
+                    <div class="contact-details">
+                        <h3>Website</h3>
+                        <p><a href="https://elishastraton.org" target="_blank">elishastraton.org</a></p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">✉️</div>
+                    <div class="contact-details">
+                        <h3>Get In Touch</h3>
+                        <p>Visit <a href="https://elishastraton.org/contact.html"
+                                target="_blank">elishastraton.org/contact</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <h2 style="color: var(--light); margin-bottom: 2rem; font-weight: 900; letter-spacing: 1px;">Send a
+                    Message</h2>
+                <form onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required placeholder="What's this about?">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required placeholder="Your message here..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message ✉️</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About SOMA</h3>
+                <p>Your premier destination for educational resources.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <p><a href="books.html" class="footer-link">Books</a></p>
+                <p><a href="papers.html" class="footer-link">Past Papers</a></p>
+                <p><a href="#contact" class="footer-link">Contact</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Owner & Developer</h3>
+                <p><a href="https://elishastraton.org" target="_blank">Elisha Straton Kimario</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <div class="social-links">
+                    <a href="https://elishastraton.org" target="_blank" class="social-link">🌐</a>
+                    <a href="https://elishastraton.org/contact.html" target="_blank" class="social-link">📧</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 SOMA Educational Platform. All rights reserved.</p>
+            <p>Powered by <img src="logo.png" alt="logo" style="height: 40px; vertical-align: middle;"></p>
+        </div>
+    </footer>
+
+    <!-- Search Modal -->
+    <div id="search-modal" role="dialog" aria-modal="true">
+        <div class="search-modal-content">
+            <span class="close-search-modal">&times;</span>
+            <h2>Search the Website</h2>
+            <input type="text" id="search-modal-input" placeholder="Search for anything...">
+            <div id="search-modal-results"></div>
+        </div>
+    </div>
+
+    <div id="cookie-consent-banner" role="alert" aria-live="polite">
+        <p>This website uses cookies to ensure you get the best experience.</p>
+        <button id="cookie-accept-btn">Accept</button>
+    </div>
+
+    <a href="#" class="back-to-top">↑</a>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>

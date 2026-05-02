@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ff1493;
+            --secondary: #ff69b4;
+            --accent: #ffb6d9;
+            --dark: #1a0a1a;
+            --darker: #0d0507;
+            --light: #fff;
+            --text: #f0f0f0;
+            --gold: #ffd700;
+        }
+
+        [data-theme="light"] {
+            --primary: #e60099;
+            --secondary: #ff1493;
+            --accent: #ffb6d9;
+            --dark: #fff0f5;
+            --darker: #ffe4f0;
+            --light: #1a1a1a;
+            --text: #1a1a1a;
+            --gold: #daa520;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--darker);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Password Modal Styles */
+        .password-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .password-modal {
+            background: linear-gradient(135deg, #1a0a1a 0%, #2d1932 100%);
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(255, 20, 147, 0.3);
+            animation: modalSlideIn 0.5s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .password-modal-content h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .password-modal-content p {
+            color: var(--text);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .password-input-wrapper {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 20, 147, 0.1);
+            border: 2px solid var(--secondary);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .password-input:focus {
+            outline: none;
+            background: rgba(255, 20, 147, 0.2);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(255, 20, 147, 0.3);
+        }
+
+        .password-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .password-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .password-btn {
+            padding: 0.8rem 2rem;
+            border: 2px solid var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .password-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.4);
+        }
+
+        .password-btn:active {
+            transform: translateY(0);
+        }
+
+        .password-btn-cancel {
+            background: linear-gradient(135deg, #666, #999);
+            border-color: #999;
+        }
+
+        .password-btn-cancel:hover {
+            box-shadow: 0 10px 30px rgba(100, 100, 100, 0.4);
+        }
+
+        /* Error Message */
+        .error-message {
+            display: none;
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            padding: 0.8rem;
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid #ff6b6b;
+            border-radius: 8px;
+            animation: shake 0.3s ease;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        /* Decorative Elements */
+        .modal-decoration {
+            position: absolute;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .decoration-1 {
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, var(--primary), transparent);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .decoration-2 {
+            bottom: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, var(--secondary), transparent);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(30px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .password-modal {
+                padding: 2rem;
+            }
+
+            .password-modal-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .password-buttons {
+                flex-direction: column;
+            }
+
+            .password-btn {
+                width: 100%;
+            }
+        }
+
+        /* Instruction Text */
+        .instruction {
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-top: 1.5rem;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Password Modal -->
+    <div class="password-modal-overlay" id="passwordOverlay">
+        <div class="password-modal" id="passwordModal">
+            <div class="modal-decoration decoration-1"></div>
+            <div class="modal-decoration decoration-2"></div>
+            <div class="password-modal-content">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🔐</div>
+                <h2>Enter Access Code</h2>
+                <p>This space holds something special.</p>
+                
+                <form id="passwordForm" onsubmit="checkPassword(event)">
+                    <div class="password-input-wrapper">
+                        <input 
+                            type="password" 
+                            id="passwordInput" 
+                            class="password-input" 
+                            placeholder="Enter code..."
+                            required
+                            autocomplete="off"
+                        >
+                        <div class="error-message" id="errorMessage">❌ Access Denied. Please try again.</div>
+                    </div>
+
+                    <div class="password-buttons">
+                        <button type="submit" class="password-btn">Enter</button>
+                        <button type="button" class="password-btn password-btn-cancel" onclick="guestAccess()">Guest</button>
+                    </div>
+                </form>
+
+                <p class="instruction">💡 Hint: Think of something precious...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set focus on input when page loads
+        window.addEventListener('load', function() {
+            document.getElementById('passwordInput').focus();
+        });
+
+        function checkPassword(event) {
+            event.preventDefault();
+            const password = document.getElementById('passwordInput').value;
+            const correctPassword = 'zuriihh';
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (password === correctPassword) {
+                // Correct password - show success animation
+                const modal = document.getElementById('passwordModal');
+                modal.style.animation = 'modalSlideOut 0.5s ease-in forwards';
+                
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 500);
+            } else {
+                // Wrong password - show error
+                errorMessage.classList.add('show');
+                document.getElementById('passwordInput').value = '';
+                
+                // Clear error message after 3 seconds
+                setTimeout(() => {
+                    errorMessage.classList.remove('show');
+                }, 3000);
+            }
+        }
+
+        function guestAccess() {
+            // Guest access redirects to SOMA studying content
+            const modal = document.getElementById('passwordModal');
+            modal.style.animation = 'modalSlideOut 0.5s ease-in forwards';
+            
+            setTimeout(() => {
+                window.location.href = 'oldindex.html';
+            }, 500);
+        }
+
+        // Allow Enter key to submit form
+        document.getElementById('passwordInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                document.getElementById('passwordForm').dispatchEvent(new Event('submit'));
+            }
+        });
+
+        // Prevent form submission by pressing buttons accidentally
+        document.getElementById('passwordForm').addEventListener('submit', function(e) {
+            if (e.target.tagName !== 'FORM') {
+                e.preventDefault();
+            }
+        });
+
+        // Add animation for modal slide out
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes modalSlideOut {
+                from {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+                to {
+                    opacity: 0;
+                    transform: scale(0.9);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+
+</body>
+
+</html>

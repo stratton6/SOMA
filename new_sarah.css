@@ -1,0 +1,450 @@
+/* Sarah's Tribute Page Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #ff1493;
+    --secondary: #ff69b4;
+    --accent: #ffb6d9;
+    --dark: #1a0a1a;
+    --darker: #0d0507;
+    --light: #fff;
+    --text: #f0f0f0;
+    --gold: #ffd700;
+}
+
+[data-theme="light"] {
+    --primary: #e60099;
+    --secondary: #ff1493;
+    --accent: #ffb6d9;
+    --dark: #fff0f5;
+    --darker: #ffe4f0;
+    --light: #1a1a1a;
+    --text: #1a1a1a;
+    --gold: #daa520;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--darker);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* Navbar */
+.sarah-navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(13, 5, 7, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 2px 20px rgba(255, 20, 147, 0.2);
+}
+
+.sarah-navbar h1 {
+    color: var(--primary);
+    font-size: 1.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.sarah-navbar a {
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.sarah-navbar a:hover {
+    color: var(--primary);
+    transform: scale(1.1);
+}
+
+/* Hero Section */
+.sarah-hero {
+    margin-top: 80px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0d0507 0%, #1a0a1a 50%, #2d1932 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.sarah-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255, 20, 147, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 8s ease-in-out infinite;
+}
+
+.sarah-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255, 105, 180, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 10s ease-in-out infinite reverse;
+}
+
+.sarah-hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 800px;
+    padding: 2rem;
+}
+
+.sarah-hero h1 {
+    font-size: 4rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #ff1493, #ffb6d9, #ff69b4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    animation: slideInDown 1s ease-out;
+}
+
+.sarah-hero p {
+    font-size: 1.5rem;
+    color: var(--accent);
+    margin-bottom: 2rem;
+    animation: slideInUp 1s ease-out;
+}
+
+.sarah-tagline {
+    font-size: 1.2rem;
+    color: var(--gold);
+    font-style: italic;
+    font-weight: 600;
+    animation: fadeIn 1.5s ease-out;
+}
+
+/* Animations */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(30px); }
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Wishes & Quotes Section */
+.sarah-wishes-section {
+    padding: 6rem 2rem;
+    background: linear-gradient(180deg, #1a0a1a 0%, #0d0507 100%);
+}
+
+.sarah-section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--primary);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.sarah-section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+}
+
+.wishes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.wish-card {
+    background: linear-gradient(135deg, rgba(255, 20, 147, 0.1), rgba(255, 105, 180, 0.1));
+    border: 2px solid var(--primary);
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.wish-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.wish-card:hover::before {
+    left: 100%;
+}
+
+.wish-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 40px rgba(255, 20, 147, 0.3);
+    border-color: var(--secondary);
+}
+
+.wish-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.wish-card h3 {
+    color: var(--secondary);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.wish-card p {
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+/* Quotes Section */
+.sarah-quotes-section {
+    padding: 6rem 2rem;
+    background: linear-gradient(180deg, #0d0507 0%, #1a0a1a 100%);
+}
+
+.quotes-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.quote-card {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(255, 20, 147, 0.05));
+    border-left: 5px solid var(--gold);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.quote-card:hover {
+    transform: translateX(10px);
+    box-shadow: 0 5px 20px rgba(255, 20, 147, 0.2);
+}
+
+.quote-text {
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    line-height: 1.8;
+}
+
+.quote-author {
+    text-align: right;
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Gallery Section */
+.sarah-gallery-section {
+    padding: 6rem 2rem;
+    background: linear-gradient(180deg, #1a0a1a 0%, #0d0507 100%);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    aspect-ratio: 1;
+    border: 2px solid var(--primary);
+    cursor: pointer;
+}
+
+.gallery-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 20, 147, 0.2), rgba(255, 105, 180, 0.2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    transition: all 0.3s ease;
+}
+
+.gallery-item:hover .gallery-placeholder {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, rgba(255, 20, 147, 0.4), rgba(255, 105, 180, 0.4));
+}
+
+/* Exam Wishes */
+.exam-wishes-section {
+    padding: 6rem 2rem;
+    background: linear-gradient(180deg, #0d0507 0%, #2d1932 100%);
+    text-align: center;
+}
+
+.exam-countdown {
+    font-size: 2rem;
+    color: var(--gold);
+    font-weight: 900;
+    margin-bottom: 2rem;
+}
+
+.exam-message {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.3rem;
+    line-height: 2;
+    color: var(--text);
+    background: linear-gradient(135deg, rgba(255, 20, 147, 0.1), rgba(255, 105, 180, 0.1));
+    padding: 2rem;
+    border-radius: 15px;
+    border: 2px solid var(--primary);
+}
+
+/* Footer */
+.sarah-footer {
+    background: linear-gradient(135deg, #1a0a1a 0%, #0d0507 100%);
+    padding: 3rem 2rem;
+    text-align: center;
+    border-top: 2px solid var(--primary);
+}
+
+.sarah-footer p {
+    color: var(--text);
+    margin-bottom: 1rem;
+}
+
+.footer-heart {
+    color: var(--primary);
+    animation: pulse 1s ease-in-out infinite;
+    display: inline-block;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sarah-navbar {
+        padding: 1rem;
+    }
+
+    .sarah-navbar h1 {
+        font-size: 1.3rem;
+    }
+
+    .sarah-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .sarah-hero p {
+        font-size: 1.1rem;
+    }
+
+    .sarah-section-title {
+        font-size: 1.8rem;
+    }
+
+    .wish-card {
+        padding: 1.5rem;
+    }
+
+    .quote-text {
+        font-size: 1.1rem;
+    }
+
+    .exam-message {
+        font-size: 1.1rem;
+        padding: 1.5rem;
+    }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--darker);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
+}
