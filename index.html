@@ -4,204 +4,245 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>For Sarah 🌹</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Lato:wght@300;400;700&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --rose:   #ff9cb7;
-      --rose2:  #d1718f;
-      --pale:   #fff6f8;
-      --ink:    #2b1c21;
-      --panel:  rgba(255,250,246,0.24);
-      --border: rgba(255,236,239,0.34);
-      --muted:  #ab7d78;
-      --gold:   #f7dcb1;
-      --cream:  #fff2ef;
-      --paper:  rgba(255,245,242,0.92);
+      --rose:    #e8506a;
+      --rose2:   #c0334e;
+      --rose3:   #ff8fa8;
+      --pale:    #fff0f3;
+      --ink:     #2b1520;
+      --muted:   #9a6070;
+      --gold:    #f0c070;
+      --cream:   #fff5f0;
+      --deep:    #1a0d12;
+      --border:  rgba(255,180,200,0.4);
+      --glass:   rgba(255,245,248,0.12);
     }
 
     html, body {
       height: 100%;
-      background: radial-gradient(circle at top left, rgba(255,183,201,0.18), transparent 30%),
-                  radial-gradient(circle at bottom right, rgba(255,215,195,0.16), transparent 28%),
-                  linear-gradient(170deg, #2b1c21 0%, #3c242c 45%, #2d1720 100%);
+      background: #1a0b10;
       color: var(--pale);
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Lato', sans-serif;
       overflow-x: hidden;
     }
 
-    /* Ambient background */
-    .bg-fixed {
+    /* === CANVAS BG === */
+    #bgCanvas {
       position: fixed;
       inset: 0;
-      pointer-events: none;
       z-index: 0;
-      overflow: hidden;
-    }
-    .bg-fixed::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.04;
-    }
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(100px);
-    }
-    .orb-a {
-      width: 55vw; height: 55vw;
-      background: radial-gradient(circle, rgba(232,80,106,0.16) 0%, transparent 70%);
-      top: -15%; right: -10%;
-      animation: drift-a 20s ease-in-out infinite alternate;
-    }
-    .orb-b {
-      width: 45vw; height: 45vw;
-      background: radial-gradient(circle, rgba(201,169,110,0.08) 0%, transparent 70%);
-      bottom: -10%; left: -10%;
-      animation: drift-b 25s ease-in-out infinite alternate;
-    }
-    @keyframes drift-a {
-      from { transform: translate(0,0) scale(1); }
-      to   { transform: translate(-3vw, 3vw) scale(1.08); }
-    }
-    @keyframes drift-b {
-      from { transform: translate(0,0) scale(1); }
-      to   { transform: translate(3vw,-3vw) scale(1.06); }
+      pointer-events: none;
     }
 
-    /* Screen system */
+    /* Rose petals floating */
+    .petal {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1;
+      font-size: 1.2rem;
+      opacity: 0;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0%   { transform: translateY(-40px) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.7; }
+      90%  { opacity: 0.5; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Floating hearts */
+    .heart-float {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1;
+      font-size: 1rem;
+      opacity: 0;
+      animation: floatUp ease-in infinite;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(0) scale(0.5); opacity: 0; }
+      20%  { opacity: 0.6; }
+      100% { transform: translateY(-120vh) scale(1.2); opacity: 0; }
+    }
+
+    /* Sparkle stars */
+    .sparkle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1;
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: #ffcce0;
+      animation: twinkle ease-in-out infinite;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50%       { opacity: 1; transform: scale(1); }
+    }
+
+    /* === SCREENS === */
     .screen {
       position: fixed;
       inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 1;
+      z-index: 10;
       padding: 1.5rem;
-      transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.22,1,0.36,1);
+      transition: opacity 0.75s ease, transform 0.75s cubic-bezier(0.22,1,0.36,1);
     }
     .screen.hidden {
       opacity: 0;
       pointer-events: none;
-      transform: scale(0.97) translateY(12px);
+      transform: scale(0.95) translateY(20px);
     }
     #letterScreen {
       align-items: flex-start;
       overflow-y: auto;
     }
 
-    /* ── GATE ─────────────────────────────────────── */
+    /* === GATE === */
     .gate-card {
-      background: rgba(255,248,245,0.32);
-      border: 1px solid rgba(255,236,237,0.42);
-      border-radius: 14px;
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      padding: clamp(2.5rem,6vw,4rem) clamp(1.8rem,5vw,3.5rem);
+      background: rgba(30,10,18,0.82);
+      border: 1px solid rgba(255,160,185,0.35);
+      border-radius: 20px;
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      padding: clamp(2.5rem,6vw,4rem) clamp(2rem,5vw,3.5rem);
       width: min(440px, 100%);
       text-align: center;
-      box-shadow: 0 40px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.025) inset;
-      animation: rise 0.85s cubic-bezier(0.22,1,0.36,1) both;
+      box-shadow: 0 0 80px rgba(232,80,106,0.2), 0 40px 80px rgba(0,0,0,0.7);
+      animation: riseIn 1s cubic-bezier(0.22,1,0.36,1) both;
+      position: relative;
+      overflow: hidden;
     }
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(36px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .gate-card::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 10%; right: 10%;
+      height: 2px;
+      background: linear-gradient(to right, transparent, #ff8fa8, transparent);
     }
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(50px) scale(0.95); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
     .gate-icon {
-      font-size: 3rem;
+      font-size: 3.2rem;
       display: inline-block;
-      margin-bottom: 1.4rem;
-      animation: heartbeat 3.5s ease-in-out infinite;
+      margin-bottom: 1.5rem;
+      animation: heartbeat 3s ease-in-out infinite;
     }
     @keyframes heartbeat {
       0%,100% { transform: scale(1); }
-      14%     { transform: scale(1.2); }
-      28%     { transform: scale(1); }
-      42%     { transform: scale(1.1); }
+      15%     { transform: scale(1.25); }
+      30%     { transform: scale(1); }
+      45%     { transform: scale(1.12); }
     }
+
     .gate-card h1 {
-      font-size: clamp(1.6rem,4vw,2.2rem);
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.7rem,4vw,2.3rem);
       font-weight: 400;
       font-style: italic;
+      color: #ffd6e2;
       letter-spacing: 0.03em;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.4rem;
     }
     .gate-sub {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.78rem;
-      color: var(--muted);
-      letter-spacing: 0.12em;
-      margin-bottom: 2.2rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.8rem;
+      color: #c08090;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
     }
+
     input[type="password"] {
       width: 100%;
-      padding: 0.95rem 1.3rem;
-      background: rgba(255,255,255,0.035);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      color: var(--pale);
-      font-family: 'DM Mono', monospace;
-      font-size: 1.05rem;
-      letter-spacing: 0.22em;
+      padding: 1rem 1.4rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,160,185,0.35);
+      border-radius: 8px;
+      color: #ffdde6;
+      font-family: 'Lato', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.25em;
       text-align: center;
       outline: none;
-      transition: border-color 0.3s, box-shadow 0.3s;
+      transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
     }
     input[type="password"]::placeholder {
-      color: rgba(255,255,255,0.15);
+      color: rgba(255,200,215,0.3);
       letter-spacing: 0.05em;
     }
     input[type="password"]:focus {
-      border-color: var(--rose);
-      box-shadow: 0 0 0 3px rgba(232,80,106,0.13);
+      border-color: var(--rose3);
+      background: rgba(255,255,255,0.09);
+      box-shadow: 0 0 0 4px rgba(232,80,106,0.15), 0 0 20px rgba(232,80,106,0.1);
     }
+
     .gate-btn {
       width: 100%;
       margin-top: 1.1rem;
-      padding: 0.95rem;
-      background: linear-gradient(135deg, var(--rose), var(--rose2));
+      padding: 1rem;
+      background: linear-gradient(135deg, #e8506a, #c0334e);
       border: none;
-      border-radius: 4px;
+      border-radius: 8px;
       color: #fff;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
       font-style: italic;
       letter-spacing: 0.1em;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.25s, filter 0.25s;
-      box-shadow: 0 8px 24px rgba(232,80,106,0.28);
+      transition: transform 0.25s, box-shadow 0.25s, filter 0.25s;
+      box-shadow: 0 8px 28px rgba(232,80,106,0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    .gate-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+      pointer-events: none;
     }
     .gate-btn:hover {
       transform: translateY(-3px);
-      box-shadow: 0 14px 36px rgba(232,80,106,0.42);
-      filter: brightness(1.08);
+      box-shadow: 0 16px 40px rgba(232,80,106,0.55);
+      filter: brightness(1.1);
     }
     .gate-btn:active { transform: translateY(-1px); }
+
     .gate-error {
       min-height: 1.5rem;
-      margin-top: 0.9rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.8rem;
-      color: #ff8a99;
+      margin-top: 1rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.82rem;
+      color: #ff9ab0;
       letter-spacing: 0.04em;
       opacity: 0;
       transition: opacity 0.3s;
     }
     .gate-error.show { opacity: 1; }
+
     .gate-hint {
       margin-top: 2rem;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       font-style: italic;
-      color: rgba(122,85,101,0.55);
-      animation: pulse-hint 4s ease-in-out infinite;
+      color: #7a4555;
+      animation: pulseHint 4s ease-in-out infinite;
     }
-    @keyframes pulse-hint {
-      0%,100% { opacity: 0.5; } 50% { opacity: 0.9; }
+    @keyframes pulseHint {
+      0%,100% { opacity: 0.5; } 50% { opacity: 1; }
     }
+
     @keyframes shake {
       0%,100% { transform: translateX(0); }
       18%     { transform: translateX(-9px); }
@@ -211,398 +252,450 @@
     }
     .do-shake { animation: shake 0.45s ease; }
 
-    /* ── LETTER ───────────────────────────────────── */
+    /* === LETTER === */
     .letter-wrap {
-      width: min(660px, 100%);
+      width: min(680px, 100%);
       margin: 0 auto;
-      padding: 3.5rem 0 6rem;
+      padding: 3rem 0 6rem;
     }
+
+    .page-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .tab-btn {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,160,185,0.3);
+      color: #ffb8cb;
+      padding: 0.7rem 1.5rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.88rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: background 0.3s, border-color 0.3s, color 0.3s, transform 0.2s, box-shadow 0.3s;
+    }
+    .tab-btn.active {
+      background: rgba(232,80,106,0.25);
+      border-color: rgba(232,80,106,0.65);
+      color: #ffd0db;
+      box-shadow: 0 4px 20px rgba(232,80,106,0.3);
+      transform: translateY(-2px);
+    }
+    .tab-btn:hover:not(.active) {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-1px);
+    }
+
+    .section.hidden { display: none; }
+
     .ltr-header {
       text-align: center;
-      margin-bottom: 2.8rem;
-      animation: fadeUp 0.8s 0.05s both;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.9s 0.1s both;
     }
     .ltr-petal {
-      font-size: 2.4rem;
+      font-size: 2.6rem;
       display: inline-block;
-      opacity: 0.85;
-      animation: spin 10s linear infinite;
+      animation: spinPetal 12s linear infinite;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes spinPetal { to { transform: rotate(360deg); } }
     .ltr-header h2 {
-      margin-top: 0.8rem;
-      font-size: clamp(1.6rem,4vw,2.2rem);
-      font-weight: 400;
-      font-style: italic;
-      letter-spacing: 0.04em;
+      margin-top: 0.9rem;
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2rem,5vw,2.8rem);
+      font-weight: 600;
+      color: #ffd0db;
+      letter-spacing: 0.02em;
     }
     .ltr-date {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.74rem;
-      color: var(--muted);
-      letter-spacing: 0.14em;
-      margin-top: 0.5rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.78rem;
+      color: #a07080;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 0.6rem;
     }
+
     .rule {
       display: flex;
       align-items: center;
-      gap: 0.8rem;
-      margin: 1.8rem 0;
-      opacity: 0.3;
+      gap: 0.9rem;
+      margin: 2rem 0;
     }
     .rule::before, .rule::after {
       content: '';
       flex: 1;
       height: 1px;
-      background: linear-gradient(to right, transparent, var(--rose), transparent);
+      background: linear-gradient(to right, transparent, rgba(232,80,106,0.5), transparent);
     }
-    .rule span { font-size: 0.75rem; color: var(--rose); }
+    .rule span { font-size: 0.85rem; color: var(--rose3); }
+
+    /* The letter paper */
     .letter-card {
-      background: linear-gradient(180deg, rgba(255,250,248,0.96), rgba(255,242,244,0.94));
-      border: 1px solid rgba(255,225,229,0.72);
-      border-radius: 18px;
-      padding: clamp(2rem,5vw,3rem) clamp(1.5rem,5vw,2.8rem);
-      line-height: 1.95;
-      font-size: clamp(1.05rem,2.5vw,1.18rem);
-      color: #3e1f25;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 30px 70px rgba(0,0,0,0.28);
+      background: linear-gradient(160deg, #fff8f5 0%, #fff0f3 50%, #fff5f0 100%);
+      border: 1px solid rgba(220,170,180,0.6);
+      border-radius: 20px;
+      padding: clamp(2rem,5vw,3.2rem) clamp(1.8rem,5vw,3rem);
+      line-height: 2;
+      font-size: clamp(1.05rem,2.5vw,1.15rem);
+      color: #2c1218;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,220,230,0.2);
       position: relative;
-      animation: fadeUp 0.8s 0.15s both;
+      animation: fadeUp 0.9s 0.2s both;
+      overflow: hidden;
     }
-    .letter-card::after {
-      content: '✦';
+    /* Paper texture lines */
+    .letter-card::before {
+      content: '';
       position: absolute;
-      top: 1rem; right: 1.2rem;
-      font-size: 0.9rem;
-      color: rgba(209,103,132,0.34);
+      inset: 0;
+      background: repeating-linear-gradient(
+        transparent,
+        transparent 31px,
+        rgba(200,160,170,0.12) 31px,
+        rgba(200,160,170,0.12) 32px
+      );
+      pointer-events: none;
     }
+    /* Pink left margin line */
+    .letter-card::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0; left: 3.5rem;
+      width: 1px;
+      background: rgba(232,80,106,0.18);
+      pointer-events: none;
+    }
+    .letter-card-inner { position: relative; z-index: 1; }
+
     .greeting {
-      font-size: clamp(1.2rem,3vw,1.4rem);
-      font-weight: 600;
-      color: #6f3c49;
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.4rem,3.5vw,1.7rem);
+      font-weight: 700;
+      color: #8b2040;
       margin-bottom: 1.5rem;
     }
-    .letter-card p { margin-bottom: 1.15rem; }
-    .letter-card p:last-child { margin-bottom: 0; }
-    .letter-card p { color: #4f2a31; }
-    .sign-off {
-      margin-top: 2rem;
-      font-style: italic;
-      color: #c95878;
-      line-height: 1.7;
+    .letter-card p {
+      margin-bottom: 1.2rem;
+      color: #2c1218;
+      font-family: 'Lato', sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.95;
     }
+    .letter-card p:last-child { margin-bottom: 0; }
+    .sign-off {
+      margin-top: 2.2rem;
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.15rem,3vw,1.4rem);
+      font-weight: 600;
+      color: #9a2a48;
+      line-height: 1.8;
+    }
+
+    /* Reactions */
     .reactions {
       margin-top: 2.2rem;
       text-align: center;
-      animation: fadeUp 0.8s 0.25s both;
+      animation: fadeUp 0.9s 0.3s both;
     }
     .reactions .rlabel {
+      font-family: 'Lato', sans-serif;
       font-style: italic;
       font-size: 0.95rem;
-      color: #8f6f74;
-      margin-bottom: 0.9rem;
+      color: #c08090;
+      margin-bottom: 1rem;
     }
     .reaction-row {
       display: flex;
-      gap: 0.65rem;
+      gap: 0.7rem;
       justify-content: center;
       flex-wrap: wrap;
     }
     .rbtn {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,160,185,0.3);
       border-radius: 40px;
-      padding: 0.5rem 1.1rem;
-      color: var(--pale);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.98rem;
+      padding: 0.6rem 1.2rem;
+      color: #ffc8d6;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.95rem;
       cursor: pointer;
-      transition: background 0.22s, border-color 0.22s, transform 0.2s;
-      white-space: nowrap;
+      transition: background 0.25s, border-color 0.25s, transform 0.2s, box-shadow 0.25s;
     }
     .rbtn:hover {
-      background: rgba(232,80,106,0.1);
-      border-color: rgba(232,80,106,0.45);
-      transform: translateY(-2px);
+      background: rgba(232,80,106,0.15);
+      border-color: rgba(232,80,106,0.5);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(232,80,106,0.2);
     }
     .rbtn.picked {
-      background: rgba(232,80,106,0.18);
-      border-color: var(--rose);
+      background: rgba(232,80,106,0.3);
+      border-color: var(--rose3);
       color: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(232,80,106,0.35);
     }
+
+    /* Feedback */
     .feedback {
       margin-top: 2rem;
-      animation: fadeUp 0.8s 0.35s both;
+      animation: fadeUp 0.9s 0.4s both;
     }
     .feedback label {
       display: block;
+      font-family: 'Lato', sans-serif;
       font-style: italic;
       font-size: 0.95rem;
-      color: var(--muted);
-      margin-bottom: 0.65rem;
+      color: #c08090;
+      margin-bottom: 0.8rem;
     }
     textarea {
       width: 100%;
-      min-height: 105px;
-      padding: 1rem 1.2rem;
-      background: rgba(255,250,246,0.95);
-      border: 1px solid rgba(233,190,196,0.55);
-      border-radius: 16px;
-      color: #3c1f24;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.05rem;
+      min-height: 110px;
+      padding: 1.1rem 1.3rem;
+      background: rgba(30,10,18,0.75);
+      border: 1px solid rgba(255,160,185,0.3);
+      border-radius: 14px;
+      color: #ffdde6;
+      font-family: 'Lato', sans-serif;
+      font-size: 1rem;
       line-height: 1.75;
       resize: vertical;
       outline: none;
       transition: border-color 0.3s, box-shadow 0.3s;
     }
-    textarea::placeholder { color: rgba(255,255,255,0.14); font-style: italic; }
+    textarea::placeholder { color: rgba(255,200,215,0.3); font-style: italic; }
     textarea:focus {
-      border-color: var(--rose);
-      box-shadow: 0 0 0 3px rgba(232,80,106,0.1);
+      border-color: var(--rose3);
+      box-shadow: 0 0 0 3px rgba(232,80,106,0.12);
     }
+
     .send-btn {
-      margin-top: 0.9rem;
-      padding: 0.85rem 2rem;
-      background: rgba(255,250,246,0.95);
-      border: 1px solid rgba(233,179,199,0.55);
+      margin-top: 1rem;
+      padding: 0.9rem 2.2rem;
+      background: rgba(30,10,18,0.7);
+      border: 1px solid rgba(232,80,106,0.45);
       border-radius: 999px;
-      color: #4f2531;
-      font-family: 'Cormorant Garamond', serif;
+      color: #ffb8cb;
+      font-family: 'Playfair Display', serif;
       font-size: 1rem;
       font-style: italic;
-      letter-spacing: 0.07em;
+      letter-spacing: 0.08em;
       cursor: pointer;
-      transition: background 0.25s, color 0.25s, transform 0.2s, box-shadow 0.25s;
+      transition: background 0.3s, color 0.3s, transform 0.2s, box-shadow 0.3s, border-color 0.3s;
     }
     .send-btn:hover {
       background: var(--rose);
       color: #fff;
-      transform: translateY(-2px);
-      box-shadow: 0 12px 28px rgba(255,142,172,0.30);
+      border-color: var(--rose);
+      transform: translateY(-3px);
+      box-shadow: 0 14px 32px rgba(232,80,106,0.4);
     }
-    .send-btn:disabled { opacity: 0.45; cursor: default; transform: none; }
+    .send-btn:disabled {
+      opacity: 0.45;
+      cursor: default;
+      transform: none;
+    }
     .confirm-msg {
       display: none;
-      margin-top: 0.8rem;
+      margin-top: 0.9rem;
       font-style: italic;
       color: var(--gold);
-      font-size: 0.92rem;
+      font-size: 0.93rem;
+      font-family: 'Lato', sans-serif;
     }
     .confirm-msg.show { display: block; }
+
     .ltr-footer {
       text-align: center;
       margin-top: 3.5rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      color: rgba(122,85,101,0.38);
-      letter-spacing: 0.1em;
-      animation: fadeUp 0.8s 0.45s both;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.72rem;
+      color: rgba(160,110,120,0.5);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      animation: fadeUp 0.9s 0.5s both;
     }
-    .page-tabs {
-      display: flex;
-      justify-content: center;
-      gap: 0.7rem;
-      flex-wrap: wrap;
-      margin-bottom: 1.8rem;
-    }
-    .tab-btn {
-      background: rgba(255,246,244,0.85);
-      border: 1px solid rgba(255,234,237,0.65);
-      color: #41252f;
-      padding: 0.75rem 1.15rem;
-      border-radius: 999px;
-      cursor: pointer;
-      font-family: 'DM Mono', monospace;
-      letter-spacing: 0.08em;
-      transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.2s;
-    }
-    .tab-btn.active {
-      background: rgba(255,237,242,0.98);
-      border-color: rgba(255,210,223,0.95);
-      color: var(--rose2);
-      box-shadow: 0 12px 28px rgba(255,242,245,0.35);
-      transform: translateY(-1px);
-    }
-    .section.hidden { display: none; }
+
+    /* === MESSAGES === */
     .messages-header {
       text-align: center;
-      max-width: 720px;
-      margin: 0 auto 1.4rem;
-      color: #3b222f;
+      max-width: 700px;
+      margin: 0 auto 1.5rem;
+      animation: fadeUp 0.8s 0.1s both;
     }
     .messages-header h2 {
-      font-size: clamp(1.5rem,4vw,2rem);
-      margin-bottom: 0.4rem;
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.7rem,4vw,2.2rem);
+      color: #ffd0db;
+      margin-bottom: 0.5rem;
     }
     .messages-header p {
-      color: #6c4a55;
+      font-family: 'Lato', sans-serif;
+      color: #c09090;
       line-height: 1.8;
-      margin: 0;
+      font-size: 0.95rem;
     }
+
     .chat-card {
-      background: linear-gradient(180deg, rgba(255,248,244,0.95), rgba(255,241,243,0.95));
-      border: 1px solid rgba(255,221,228,0.72);
-      border-radius: 24px;
+      background: rgba(18,6,12,0.85);
+      border: 1px solid rgba(255,160,185,0.25);
+      border-radius: 20px;
       padding: 1.5rem;
-      margin-top: 1rem;
-      box-shadow: 0 22px 48px rgba(0,0,0,0.14);
       min-height: 320px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 0.85rem;
-      position: relative;
+      gap: 0.9rem;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+      animation: fadeUp 0.8s 0.15s both;
     }
     .chat-list {
       display: flex;
       flex-direction: column;
-      gap: 0.9rem;
+      gap: 1rem;
     }
     .chat-bubble {
-      max-width: 82%;
-      padding: 1rem 1.15rem;
-      border-radius: 24px;
+      max-width: 80%;
+      padding: 1rem 1.2rem;
+      border-radius: 20px;
       line-height: 1.75;
       word-break: break-word;
-      border: 1px solid transparent;
-      box-shadow: 0 10px 28px rgba(0,0,0,0.08);
-      font-style: italic;
-      letter-spacing: 0.01em;
+      font-size: 1rem;
+      animation: popIn 0.35s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.85) translateY(8px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
     }
     .chat-bubble.you {
-      background: rgba(255,247,244,0.98);
-      color: #3e2428;
+      background: linear-gradient(135deg, #8b2040, #c0334e);
+      color: #fff;
       margin-left: auto;
-      border-color: rgba(218,167,172,0.45);
-      border-top-right-radius: 6px;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 8px 24px rgba(192,51,78,0.35);
     }
     .chat-bubble.her {
-      background: rgba(255,196,214,0.92);
-      color: #3f1f2e;
+      background: rgba(255,240,245,0.95);
+      color: #2c1218;
       margin-right: auto;
-      border-color: rgba(209,108,135,0.55);
-      border-top-left-radius: 6px;
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
     }
     .chat-bubble small {
       display: block;
-      margin-top: 0.55rem;
-      font-size: 0.78rem;
-      color: rgba(111,71,81,0.86);
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
     }
-    .chat-bubble.you small {
-      color: rgba(87,55,58,0.75);
-    }
-    .chat-bubble.her small {
-      color: rgba(95,45,68,0.78);
-    }
-    .chat-bubble.you small {
-      color: rgba(38,26,31,0.68);
-    }
-    .chat-bubble.her small {
-      color: rgba(255,255,255,0.82);
-    }
+    .chat-bubble.you small { color: rgba(255,220,230,0.7); }
+    .chat-bubble.her small { color: rgba(100,50,60,0.7); }
+
     .chat-empty {
-      color: rgba(255,255,255,0.48);
+      color: rgba(255,200,215,0.35);
       font-style: italic;
       text-align: center;
-      padding: 3.5rem 0;
+      padding: 4rem 0;
+      font-family: 'Lato', sans-serif;
     }
+
     .chat-actions {
       margin-top: 1.6rem;
-      animation: fadeUp 0.8s 0.38s both;
+      animation: fadeUp 0.8s 0.25s both;
     }
     .sender-row {
       display: flex;
-      gap: 0.65rem;
-      margin-bottom: 1rem;
+      gap: 0.7rem;
+      margin-bottom: 1.1rem;
       flex-wrap: wrap;
       justify-content: center;
     }
     .sender-btn {
-      background: rgba(255,255,255,0.22);
-      border: 1px solid rgba(255,255,255,0.30);
-      color: var(--ink);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,160,185,0.25);
+      color: #c09090;
       border-radius: 999px;
-      padding: 0.65rem 1rem;
+      padding: 0.65rem 1.2rem;
       cursor: pointer;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.9rem;
-      transition: all 0.24s;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.88rem;
+      transition: all 0.25s;
     }
     .sender-btn.active {
-      background: #fff;
-      color: var(--rose2);
-      border-color: rgba(255,255,255,0.9);
-      box-shadow: 0 12px 28px rgba(255,255,255,0.16);
+      background: rgba(232,80,106,0.25);
+      color: #ffd0db;
+      border-color: rgba(232,80,106,0.55);
+      box-shadow: 0 4px 18px rgba(232,80,106,0.25);
     }
-    .chat-input {
-      min-height: 130px;
-    }
+    .chat-input { min-height: 130px; }
     .chat-confirm {
-      margin-top: 0.8rem;
+      margin-top: 0.9rem;
       color: var(--gold);
       font-size: 0.92rem;
       display: none;
       text-align: center;
+      font-style: italic;
     }
     .chat-confirm.show { display: block; }
+
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(22px); }
+      from { opacity: 0; transform: translateY(28px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── ADMIN ────────────────────────────────────── */
+    /* === ADMIN === */
     #adminOverlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(8,3,6,0.97);
+      background: rgba(5,2,4,0.97);
       z-index: 9999;
       overflow-y: auto;
       padding: 3rem 1.5rem 4rem;
     }
     #adminOverlay h2 {
-      font-size: 1.5rem;
-      color: var(--rose);
-      font-style: italic;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.7rem;
+      color: var(--rose3);
       margin-bottom: 0.4rem;
     }
     .admin-sub {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.74rem;
       color: var(--muted);
       margin-bottom: 2rem;
       letter-spacing: 0.08em;
     }
-    .admin-inner { max-width: 620px; margin: 0 auto; }
+    .admin-inner { max-width: 640px; margin: 0 auto; }
     .admin-entry {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(232,80,106,0.18);
-      border-radius: 4px;
-      padding: 1.1rem 1.4rem;
-      margin-bottom: 0.9rem;
-      line-height: 1.75;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(232,80,106,0.2);
+      border-radius: 8px;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 1rem;
+      color: #ffdde6;
+      font-family: 'Lato', sans-serif;
       font-size: 1rem;
-      color: var(--pale);
+      line-height: 1.75;
     }
     .admin-meta {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
+      font-size: 0.72rem;
       color: var(--muted);
-      margin-bottom: 0.45rem;
+      margin-bottom: 0.5rem;
       letter-spacing: 0.06em;
     }
     .admin-tag {
       display: inline-block;
-      background: rgba(232,80,106,0.14);
+      background: rgba(232,80,106,0.2);
       border-radius: 20px;
-      padding: 0.18rem 0.75rem;
-      font-size: 0.82rem;
-      color: var(--rose);
-      margin-bottom: 0.45rem;
+      padding: 0.2rem 0.8rem;
+      font-size: 0.83rem;
+      color: var(--rose3);
+      margin-bottom: 0.5rem;
     }
     .admin-empty { font-style: italic; color: var(--muted); }
     .admin-close {
@@ -611,385 +704,486 @@
       background: var(--rose);
       border: none;
       border-radius: 50%;
-      width: 36px; height: 36px;
+      width: 38px; height: 38px;
       color: #fff;
       font-size: 1rem;
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 14px rgba(232,80,106,0.4);
+      box-shadow: 0 4px 14px rgba(232,80,106,0.45);
     }
     .admin-clear {
       margin-top: 1.5rem;
-      padding: 0.55rem 1.4rem;
+      padding: 0.6rem 1.5rem;
       background: transparent;
       border: 1px solid #cc3333;
-      border-radius: 3px;
+      border-radius: 4px;
       color: #cc3333;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.78rem;
       cursor: pointer;
       letter-spacing: 0.06em;
     }
-    .admin-clear:hover { background: rgba(204,51,51,0.1); }
+    .admin-clear:hover { background: rgba(204,51,51,0.12); }
+
+    /* Glow pulse on letter card */
+    @keyframes glowPulse {
+      0%,100% { box-shadow: 0 30px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,220,230,0.2); }
+      50%      { box-shadow: 0 30px 80px rgba(0,0,0,0.4), 0 0 40px rgba(232,80,106,0.12), 0 0 0 1px rgba(255,220,230,0.3); }
+    }
+    .letter-card { animation: fadeUp 0.9s 0.2s both, glowPulse 5s 1.5s ease-in-out infinite; }
   </style>
 </head>
 <body>
 
-  <!-- Background -->
-  <div class="bg-fixed">
-    <div class="orb orb-a"></div>
-    <div class="orb orb-b"></div>
+<!-- Particle canvas -->
+<canvas id="bgCanvas"></canvas>
+
+<!-- ══════════════ SCREEN 1 — GATE ══════════════ -->
+<div class="screen" id="gateScreen">
+  <div class="gate-card" id="gateCard">
+    <div class="gate-icon">😁</div>
+    <h1> __________</h1>
+    <p class="gate-sub">.....</p>
+    <input
+      type="password"
+      id="pwdInput"
+      placeholder="write the key..."
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <button class="gate-btn" id="unlockBtn">Open ✦</button>
+    <p class="gate-error" id="gateError">not quite right... try again 🌸</p>
+    <p class="gate-hint">💡 Anonymous🎭...</p>
   </div>
-
-  <!-- ══════════════ SCREEN 1 — GATE ══════════════ -->
-  <div class="screen" id="gateScreen">
-    <div class="gate-card" id="gateCard">
-      <div class="gate-icon">😁</div>
-      <h1> __________</h1>
-      <p class="gate-sub">..... </p>
-
-      <input
-        type="password"
-        id="pwdInput"
-        placeholder="write the key..."
-        autocomplete="off"
-        spellcheck="false"
-      />
-      <button class="gate-btn" id="unlockBtn">Open ✦</button>
-      <p class="gate-error" id="gateError">not quite right... try again 🌸</p>
-      <p class="gate-hint">💡 Anonymous🎭...</p>
-    </div>
-  </div>
-
-  <!-- ══════════════ SCREEN 2 — LETTER ══════════════ -->
-  <div class="screen hidden" id="letterScreen">
-    <div class="letter-wrap">
-
-      <div class="page-tabs">
-        <button class="tab-btn active" id="tabLetter" onclick="switchPage('letter')">letter</button>
-        <button class="tab-btn" id="tabMessages" onclick="switchPage('messages')">messages</button>
-      </div>
-
-      <div class="section" id="letterSection">
-        <div class="ltr-header">
-          <div class="ltr-petal">✿</div>
-          <h2>a letter, just for you</h2>
-          <p class="ltr-date" id="ltrDate"></p>
-        </div>
-
-        <div class="rule"><span>✦</span></div>
-
-        <div class="letter-card">
-  <p class="greeting">Hello Sarah, ✨</p>
-  
-  <p>
-    I know it’s a bit surprising that nimepoteza muda kuandaa hii, but I do care about it. ✨
-  </p>
-
-  <p>
-    I am writing this to give you the best wishes in your exams, and I know now you are in great fear but everything will be okay just as I already told you in Instagram that our greatest fear is that we have been strong for so long. 💪
-  </p>
-
-  <p>
-    Umeshasoma sana and it’s time for you to let God do his part; what matters right now is Only God’s Grace. 🙏
-  </p>
-
-  <p>
-    And trust me, umeshafaulu in your exams. "Napenda unavyoniambia kuwa nimeshafaulu, huwa nikisoma your texts, I just affirm it that nimeshafaulu, and I feel it (especially with your voice that I passed)." 🎖️
-  </p>
-
-  <p>
-    Keep that feeling close to your heart today. You have the intelligence, the preparation, and the discipline already within you. So, take a deep breath, walk into that room with your head held high, and just let your brilliance flow onto the paper. 📝
-  </p>
-
-  <p>
-    I am rooting for you every step of the way, and I can't wait to celebrate your victory when this is all over. 🥂 Go and make yourself proud, Sarah. You’ve got this! 🌟
-  </p>
-
-  <p class="sign-off">
-    With care , love & faith in you,<br/>
-    Elisha 🌹<br>
-    L.O.L
-  </p>
 </div>
 
-        <div class="rule"><span>✦</span></div>
+<!-- ══════════════ SCREEN 2 — LETTER ══════════════ -->
+<div class="screen hidden" id="letterScreen">
+  <div class="letter-wrap">
 
-        <div class="reactions">
-          <p class="rlabel">how did this make you feel?</p>
-          <div class="reaction-row">
-            <button class="rbtn" onclick="pickReaction(this)">🥹 touched</button>
-            <button class="rbtn" onclick="pickReaction(this)">💪 motivated</button>
-            <button class="rbtn" onclick="pickReaction(this)">🌸 loved</button>
-            <button class="rbtn" onclick="pickReaction(this)">😊 happy</button>
-            <button class="rbtn" onclick="pickReaction(this)">🙈 shy</button>
-          </div>
+    <div class="page-tabs">
+      <button class="tab-btn active" id="tabLetter" onclick="switchPage('letter')">letter</button>
+      <button class="tab-btn" id="tabMessages" onclick="switchPage('messages')">messages</button>
+    </div>
+
+    <div class="section" id="letterSection">
+      <div class="ltr-header">
+        <div class="ltr-petal">✿</div>
+        <h2>a letter, just for you</h2>
+        <p class="ltr-date" id="ltrDate"></p>
+      </div>
+
+      <div class="rule"><span>✦</span></div>
+
+      <div class="letter-card">
+        <div class="letter-card-inner">
+          <p class="greeting">Hello Sarah, ✨</p>
+
+          <p>
+            I know it's a bit surprising that nimepoteza muda kuandaa hii, but I do care about it. ✨
+          </p>
+
+          <p>
+            I am writing this to give you the best wishes in your exams, and I know now you are in great fear but everything will be okay just as I already told you in Instagram that our greatest fear is that we have been strong for so long. 💪
+          </p>
+
+          <p>
+            Umeshasoma sana and it's time for you to let God do his part; what matters right now is Only God's Grace. 🙏
+          </p>
+
+          <p>
+            And trust me, umeshafaulu in your exams. "Napenda unavyoniambia kuwa nimeshafaulu, huwa nikisoma your texts, I just affirm it that nimeshafaulu, and I feel it (especially with your voice that I passed)." 🎖️
+          </p>
+
+          <p>
+            Keep that feeling close to your heart today. You have the intelligence, the preparation, and the discipline already within you. So, take a deep breath, walk into that room with your head held high, and just let your brilliance flow onto the paper. 📝
+          </p>
+
+          <p>
+            I am rooting for you every step of the way, and I can't wait to celebrate your victory when this is all over. 🥂 Go and make yourself proud, Sarah. You've got this! 🌟
+          </p>
+
+          <p class="sign-off">
+            With care, love &amp; faith in you,<br/>
+            Elisha 🌹<br/>
+            L.O.L
+          </p>
         </div>
+      </div>
 
-        <div class="feedback">
-          <label for="msgBox">leave a little note back... </label>
-          <textarea id="msgBox" placeholder="write anything at all..."></textarea>
-          <button class="send-btn" id="sendBtn" onclick="saveFeedback()">send it ✦</button>
-          <p class="confirm-msg" id="confirmMsg">saved 🌹 he'll see it.</p>
+      <div class="rule"><span>✦</span></div>
+
+      <div class="reactions">
+        <p class="rlabel">how did this make you feel?</p>
+        <div class="reaction-row">
+          <button class="rbtn" onclick="pickReaction(this)">🥹 touched</button>
+          <button class="rbtn" onclick="pickReaction(this)">💪 motivated</button>
+          <button class="rbtn" onclick="pickReaction(this)">🌸 loved</button>
+          <button class="rbtn" onclick="pickReaction(this)">😊 happy</button>
+          <button class="rbtn" onclick="pickReaction(this)">🙈 shy</button>
         </div>
+      </div>
 
+      <div class="feedback">
+        <label for="msgBox">leave a little note back...</label>
+        <textarea id="msgBox" placeholder="write anything at all..."></textarea>
+        <button class="send-btn" id="sendBtn" onclick="saveFeedback()">send it ✦</button>
+        <p class="confirm-msg" id="confirmMsg">saved 🌹 he'll see it.</p>
+      </div>
+
+      <div style="text-align:center;margin-top:1.5rem;">
         <button class="send-btn" onclick="switchPage('messages')">open messages ✦</button>
-        <div class="ltr-footer">made with love · for sarah</div>
+      </div>
+      <div class="ltr-footer">made with love · for sarah</div>
+    </div>
+
+    <div class="section hidden" id="messagesSection">
+      <div class="messages-header">
+        <h2>your conversation</h2>
+        <p>Read the messages, reply as you, or send a note as Sarah so the thread stays alive.</p>
       </div>
 
-      <div class="section hidden" id="messagesSection">
-        <div class="messages-header">
-          <h2>your conversation</h2>
-          <p>Read the messages, reply as you, or send a note as Sarah so the thread stays alive.</p>
-        </div>
+      <div class="chat-card">
+        <div id="chatList" class="chat-list"></div>
+      </div>
 
-        <div class="chat-card">
-          <div id="chatList" class="chat-list"></div>
+      <div class="chat-actions">
+        <div class="sender-row">
+          <button class="sender-btn active" id="senderMe" onclick="pickSender('me')">Reply as you</button>
+          <button class="sender-btn" id="senderHer" onclick="pickSender('her')">Reply as Sarah</button>
         </div>
-
-        <div class="chat-actions">
-          <div class="sender-row">
-            <button class="sender-btn active" id="senderMe" onclick="pickSender('me')">Reply as you</button>
-            <button class="sender-btn" id="senderHer" onclick="pickSender('her')">Reply as Sarah</button>
-          </div>
-          <textarea id="chatInput" class="chat-input" placeholder="Write your next message..."></textarea>
-          <button class="send-btn" id="chatSendBtn" onclick="sendChat()">send message</button>
-          <p class="chat-confirm" id="chatConfirm">message saved.</p>
-        </div>
+        <textarea id="chatInput" class="chat-input" placeholder="Write your next message..."></textarea>
+        <button class="send-btn" id="chatSendBtn" onclick="sendChat()">send message</button>
+        <p class="chat-confirm" id="chatConfirm">message saved.</p>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- ══════════════ ADMIN OVERLAY ══════════════ -->
-  <div id="adminOverlay">
-    <button class="admin-close" onclick="closeAdmin()">✕</button>
-    <div class="admin-inner">
-      <h2>🌹 Sarah's Replies</h2>
-      <p class="admin-sub">everything she sent back — only you can see this</p>
-      <div id="adminEntries"></div>
-      <button class="admin-clear" onclick="clearFeedback()">clear all entries</button>
-    </div>
+<!-- ══════════════ ADMIN OVERLAY ══════════════ -->
+<div id="adminOverlay">
+  <button class="admin-close" onclick="closeAdmin()">✕</button>
+  <div class="admin-inner">
+    <h2>🌹 Sarah's Replies</h2>
+    <p class="admin-sub">everything she sent back — only you can see this</p>
+    <div id="adminEntries"></div>
+    <button class="admin-clear" onclick="clearFeedback()">clear all entries</button>
   </div>
+</div>
 
-  <script>
-    const PASSWORD  = 'zuriihh';
-    const STORE_KEY = 'sarah_feedback_v1';
+<script>
+  const PASSWORD  = 'zuriihh';
+  const STORE_KEY = 'sarah_feedback_v1';
+  const CONV_KEY  = 'sarah_conversation_v1';
 
-    const gateScreen      = document.getElementById('gateScreen');
-    const letterScreen    = document.getElementById('letterScreen');
-    const pwdInput        = document.getElementById('pwdInput');
-    const gateCard        = document.getElementById('gateCard');
-    const gateError       = document.getElementById('gateError');
-    const letterSection   = document.getElementById('letterSection');
-    const messagesSection = document.getElementById('messagesSection');
-    const chatList        = document.getElementById('chatList');
-    const chatInput       = document.getElementById('chatInput');
-    const chatConfirm     = document.getElementById('chatConfirm');
+  const gateScreen      = document.getElementById('gateScreen');
+  const letterScreen    = document.getElementById('letterScreen');
+  const pwdInput        = document.getElementById('pwdInput');
+  const gateCard        = document.getElementById('gateCard');
+  const gateError       = document.getElementById('gateError');
+  const letterSection   = document.getElementById('letterSection');
+  const messagesSection = document.getElementById('messagesSection');
+  const chatList        = document.getElementById('chatList');
+  const chatInput       = document.getElementById('chatInput');
+  const chatConfirm     = document.getElementById('chatConfirm');
 
-    const CONV_KEY = 'sarah_conversation_v1';
+  let chosenReaction = null;
+  let errorTimer     = null;
+  let currentSender  = 'me';
 
-    let chosenReaction = null;
-    let errorTimer     = null;
-    let currentSender  = 'me';
+  /* ── PARTICLES (canvas) ── */
+  (function() {
+    var canvas = document.getElementById('bgCanvas');
+    var ctx    = canvas.getContext('2d');
+    var W, H, particles = [];
 
-    /* Auto-focus & date */
-    window.addEventListener('load', function () {
-      pwdInput.focus();
-      document.getElementById('ltrDate').textContent = new Date().toLocaleDateString('en-US', {
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function rand(a, b) { return a + Math.random() * (b - a); }
+
+    /* Create stars + drifting orbs */
+    for (var i = 0; i < 120; i++) {
+      particles.push({
+        type: 'star',
+        x: rand(0, window.innerWidth),
+        y: rand(0, window.innerHeight),
+        r: rand(0.5, 2),
+        alpha: rand(0.1, 0.6),
+        phase: rand(0, Math.PI * 2),
+        speed: rand(0.005, 0.02)
       });
-      if (location.hash === '#admin') showAdmin();
-    });
+    }
+    /* Large blobs */
+    var blobs = [
+      { x: 0.8, y: 0.15, r: 0.38, color: 'rgba(192,51,78,0.09)' },
+      { x: 0.15, y: 0.8,  r: 0.3,  color: 'rgba(120,30,60,0.07)' },
+      { x: 0.5,  y: 0.5,  r: 0.25, color: 'rgba(232,80,106,0.05)' }
+    ];
 
-    /* Enter key on password input */
-    pwdInput.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') tryUnlock();
-    });
-    document.getElementById('unlockBtn').addEventListener('click', tryUnlock);
+    var t = 0;
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      /* Draw blobs */
+      blobs.forEach(function(b) {
+        var grd = ctx.createRadialGradient(b.x*W, b.y*H, 0, b.x*W, b.y*H, b.r*Math.min(W,H));
+        grd.addColorStop(0, b.color);
+        grd.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = grd;
+        ctx.fillRect(0, 0, W, H);
+      });
+      /* Draw stars */
+      particles.forEach(function(p) {
+        var alpha = p.alpha * (0.5 + 0.5 * Math.sin(p.phase + t * p.speed));
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,200,215,' + alpha + ')';
+        ctx.fill();
+      });
+      t++;
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
 
-    /* Unlock */
-    function tryUnlock() {
-      var val = pwdInput.value.trim();
-      if (val === PASSWORD) {
-        gateScreen.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        gateScreen.style.opacity    = '0';
-        gateScreen.style.transform  = 'scale(0.96) translateY(-10px)';
-        gateScreen.style.pointerEvents = 'none';
-        setTimeout(function () {
-          gateScreen.classList.add('hidden');
-          letterScreen.classList.remove('hidden');
-          letterScreen.scrollTop = 0;
-        }, 630);
-      } else {
-        pwdInput.value = '';
-        gateError.classList.add('show');
-        clearTimeout(errorTimer);
-        errorTimer = setTimeout(function () { gateError.classList.remove('show'); }, 3000);
+  /* ── FLOATING PETALS ── */
+  (function() {
+    var emojis = ['🌸','🌹','✿','❤','💕','🌺'];
+    function spawnPetal() {
+      var el = document.createElement('div');
+      el.className = 'petal';
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.top  = '-40px';
+      var dur = 8 + Math.random() * 10;
+      el.style.animationDuration = dur + 's';
+      el.style.animationDelay    = Math.random() * 3 + 's';
+      el.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+      document.body.appendChild(el);
+      setTimeout(function() { el.remove(); }, (dur + 3) * 1000);
+    }
+    for (var i = 0; i < 6; i++) {
+      setTimeout(spawnPetal, i * 800);
+    }
+    setInterval(spawnPetal, 2500);
+  })();
+
+  /* ── FLOATING HEARTS (triggered after unlock) ── */
+  function spawnHearts() {
+    for (var i = 0; i < 12; i++) {
+      (function(idx) {
+        setTimeout(function() {
+          var el = document.createElement('div');
+          el.className = 'heart-float';
+          el.textContent = ['💗','💖','💝','💓','❤','🩷'][Math.floor(Math.random()*6)];
+          el.style.left   = Math.random() * 100 + 'vw';
+          el.style.bottom = '0';
+          var dur = 3 + Math.random() * 4;
+          el.style.animationDuration = dur + 's';
+          el.style.animationDelay    = '0s';
+          el.style.fontSize           = (0.8 + Math.random()) + 'rem';
+          document.body.appendChild(el);
+          setTimeout(function() { el.remove(); }, dur * 1000 + 500);
+        }, idx * 180);
+      })(i);
+    }
+  }
+
+  /* ── INIT ── */
+  window.addEventListener('load', function () {
+    pwdInput.focus();
+    document.getElementById('ltrDate').textContent = new Date().toLocaleDateString('en-US', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
+    if (location.hash === '#admin') showAdmin();
+  });
+
+  pwdInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+  document.getElementById('unlockBtn').addEventListener('click', tryUnlock);
+
+  /* ── UNLOCK ── */
+  function tryUnlock() {
+    var val = pwdInput.value.trim();
+    if (val === PASSWORD) {
+      gateScreen.style.transition    = 'opacity 0.7s ease, transform 0.7s ease';
+      gateScreen.style.opacity       = '0';
+      gateScreen.style.transform     = 'scale(0.94) translateY(-14px)';
+      gateScreen.style.pointerEvents = 'none';
+      setTimeout(function() {
+        gateScreen.classList.add('hidden');
+        letterScreen.classList.remove('hidden');
+        letterScreen.scrollTop = 0;
+        spawnHearts();
+      }, 720);
+    } else {
+      pwdInput.value = '';
+      gateError.classList.add('show');
+      clearTimeout(errorTimer);
+      errorTimer = setTimeout(function() { gateError.classList.remove('show'); }, 3000);
+      gateCard.classList.remove('do-shake');
+      void gateCard.offsetWidth;
+      gateCard.classList.add('do-shake');
+      gateCard.addEventListener('animationend', function() {
         gateCard.classList.remove('do-shake');
-        void gateCard.offsetWidth;
-        gateCard.classList.add('do-shake');
-        gateCard.addEventListener('animationend', function () {
-          gateCard.classList.remove('do-shake');
-        }, { once: true });
-      }
+      }, { once: true });
     }
+  }
 
-    /* Reaction pick */
-    function pickReaction(btn) {
-      document.querySelectorAll('.rbtn').forEach(function (b) { b.classList.remove('picked'); });
-      btn.classList.add('picked');
-      chosenReaction = btn.textContent.trim();
-    }
+  function pickReaction(btn) {
+    document.querySelectorAll('.rbtn').forEach(function(b) { b.classList.remove('picked'); });
+    btn.classList.add('picked');
+    chosenReaction = btn.textContent.trim();
+  }
 
-    function switchPage(pageId) {
-      document.getElementById('tabLetter').classList.toggle('active', pageId === 'letter');
-      document.getElementById('tabMessages').classList.toggle('active', pageId === 'messages');
-      letterSection.classList.toggle('hidden', pageId !== 'letter');
-      messagesSection.classList.toggle('hidden', pageId !== 'messages');
-      if (pageId === 'messages') renderConversation();
-    }
+  function switchPage(pageId) {
+    document.getElementById('tabLetter').classList.toggle('active', pageId === 'letter');
+    document.getElementById('tabMessages').classList.toggle('active', pageId === 'messages');
+    letterSection.classList.toggle('hidden', pageId !== 'letter');
+    messagesSection.classList.toggle('hidden', pageId !== 'messages');
+    if (pageId === 'messages') renderConversation();
+  }
 
-    function pickSender(sender) {
-      currentSender = sender;
-      document.querySelectorAll('.sender-btn').forEach(function (b) {
-        b.classList.toggle('active', b.id === 'sender' + (sender === 'me' ? 'Me' : 'Her'));
-      });
-      chatInput.focus();
-    }
-
-    function getConversation() {
-      var stored = localStorage.getItem(CONV_KEY);
-      if (!stored) {
-        var base = [{
-          ts: new Date().toISOString(),
-          sender: 'me',
-          text: 'Hi Sarah, I am starting our message thread here so we can write back and forth. Reply whenever you feel ready.',
-        }];
-        localStorage.setItem(CONV_KEY, JSON.stringify(base));
-        return base;
-      }
-      return JSON.parse(stored);
-    }
-
-    function saveConversation(entries) {
-      localStorage.setItem(CONV_KEY, JSON.stringify(entries));
-    }
-
-    function formatTime(iso) {
-      var d = new Date(iso);
-      return d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-    }
-
-    function renderConversation() {
-      var entries = getConversation();
-      chatList.innerHTML = '';
-      if (!entries.length) {
-        chatList.innerHTML = '<div class="chat-empty">No messages yet. Start the thread by replying.</div>';
-        return;
-      }
-      entries.forEach(function (entry) {
-        var bubble = document.createElement('div');
-        bubble.className = 'chat-bubble ' + (entry.sender === 'me' ? 'you' : 'her');
-        bubble.innerHTML = '<div>' + entry.text + '</div>' +
-          '<small>' + (entry.sender === 'me' ? 'You · ' : 'Sarah · ') + formatTime(entry.ts) + '</small>';
-        chatList.appendChild(bubble);
-      });
-      chatList.scrollTop = chatList.scrollHeight;
-    }
-
-    function sendChat() {
-      var text = chatInput.value.trim();
-      if (!text) {
-        chatInput.style.borderColor = 'rgba(232,80,106,0.8)';
-        setTimeout(function () { chatInput.style.borderColor = ''; }, 1500);
-        return;
-      }
-      var entries = getConversation();
-      entries.push({ ts: new Date().toISOString(), sender: currentSender, text: text });
-      saveConversation(entries);
-      chatInput.value = '';
-      renderConversation();
-      chatConfirm.classList.add('show');
-      setTimeout(function () { chatConfirm.classList.remove('show'); }, 1900);
-    }
-
-    /* Save feedback */
-    function saveFeedback() {
-      var text    = document.getElementById('msgBox').value.trim();
-      var sendBtn = document.getElementById('sendBtn');
-      var confirm = document.getElementById('confirmMsg');
-
-      if (!text && !chosenReaction) {
-        var msgBox = document.getElementById('msgBox');
-        msgBox.style.borderColor = 'rgba(232,80,106,0.7)';
-        setTimeout(function () { msgBox.style.borderColor = ''; }, 1500);
-        return;
-      }
-
-      var entry = {
-        ts:       new Date().toISOString(),
-        reaction: chosenReaction || '—',
-        message:  text || '(no message)',
-      };
-
-      var all = JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
-      all.push(entry);
-      localStorage.setItem(STORE_KEY, JSON.stringify(all));
-
-      sendBtn.disabled    = true;
-      sendBtn.textContent = 'sent ✦';
-      document.getElementById('msgBox').disabled = true;
-      document.querySelectorAll('.rbtn').forEach(function (b) { b.disabled = true; });
-      confirm.classList.add('show');
-    }
-
-    /* Admin */
-    function showAdmin() {
-      var overlay   = document.getElementById('adminOverlay');
-      var container = document.getElementById('adminEntries');
-      var entries   = JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
-
-      overlay.style.display = 'block';
-
-      if (entries.length === 0) {
-        container.innerHTML = '<p class="admin-empty">No replies yet... 🌸</p>';
-        return;
-      }
-
-      container.innerHTML = '';
-      var rev = entries.slice().reverse();
-      rev.forEach(function (e, i) {
-        var d   = new Date(e.ts);
-        var fmt = d.toLocaleString('en-US', {
-          weekday: 'short', month: 'short', day: 'numeric',
-          hour: '2-digit', minute: '2-digit'
-        });
-        var num = entries.length - i;
-        var div = document.createElement('div');
-        div.className = 'admin-entry';
-        div.innerHTML =
-          '<div class="admin-meta">#' + num + ' · ' + fmt + '</div>' +
-          (e.reaction !== '—' ? '<div class="admin-tag">' + e.reaction + '</div>' : '') +
-          '<div>' + e.message + '</div>';
-        container.appendChild(div);
-      });
-    }
-
-    function closeAdmin() {
-      document.getElementById('adminOverlay').style.display = 'none';
-      history.replaceState(null, '', location.pathname);
-    }
-
-    function clearFeedback() {
-      if (!confirm("Clear all of Sarah's replies? This cannot be undone.")) return;
-      localStorage.removeItem(STORE_KEY);
-      document.getElementById('adminEntries').innerHTML = '<p class="admin-empty">All cleared.</p>';
-    }
-
-    window.addEventListener('hashchange', function () {
-      if (location.hash === '#admin') showAdmin();
+  function pickSender(sender) {
+    currentSender = sender;
+    document.querySelectorAll('.sender-btn').forEach(function(b) {
+      b.classList.toggle('active', b.id === 'sender' + (sender === 'me' ? 'Me' : 'Her'));
     });
-  </script>
+    chatInput.focus();
+  }
 
+  function getConversation() {
+    var stored = localStorage.getItem(CONV_KEY);
+    if (!stored) {
+      var base = [{
+        ts: new Date().toISOString(),
+        sender: 'me',
+        text: 'Hi Sarah, I am starting our message thread here so we can write back and forth. Reply whenever you feel ready.'
+      }];
+      localStorage.setItem(CONV_KEY, JSON.stringify(base));
+      return base;
+    }
+    return JSON.parse(stored);
+  }
+
+  function saveConversation(entries) {
+    localStorage.setItem(CONV_KEY, JSON.stringify(entries));
+  }
+
+  function formatTime(iso) {
+    var d = new Date(iso);
+    return d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function renderConversation() {
+    var entries = getConversation();
+    chatList.innerHTML = '';
+    if (!entries.length) {
+      chatList.innerHTML = '<div class="chat-empty">No messages yet. Start the thread by replying.</div>';
+      return;
+    }
+    entries.forEach(function(entry) {
+      var bubble = document.createElement('div');
+      bubble.className = 'chat-bubble ' + (entry.sender === 'me' ? 'you' : 'her');
+      bubble.innerHTML = '<div>' + entry.text + '</div>' +
+        '<small>' + (entry.sender === 'me' ? 'You · ' : 'Sarah · ') + formatTime(entry.ts) + '</small>';
+      chatList.appendChild(bubble);
+    });
+    chatList.scrollTop = chatList.scrollHeight;
+  }
+
+  function sendChat() {
+    var text = chatInput.value.trim();
+    if (!text) {
+      chatInput.style.borderColor = 'rgba(232,80,106,0.8)';
+      setTimeout(function() { chatInput.style.borderColor = ''; }, 1500);
+      return;
+    }
+    var entries = getConversation();
+    entries.push({ ts: new Date().toISOString(), sender: currentSender, text: text });
+    saveConversation(entries);
+    chatInput.value = '';
+    renderConversation();
+    chatConfirm.classList.add('show');
+    setTimeout(function() { chatConfirm.classList.remove('show'); }, 1900);
+  }
+
+  function saveFeedback() {
+    var text    = document.getElementById('msgBox').value.trim();
+    var sendBtn = document.getElementById('sendBtn');
+    var confirm = document.getElementById('confirmMsg');
+
+    if (!text && !chosenReaction) {
+      var msgBox = document.getElementById('msgBox');
+      msgBox.style.borderColor = 'rgba(232,80,106,0.7)';
+      setTimeout(function() { msgBox.style.borderColor = ''; }, 1500);
+      return;
+    }
+
+    var entry = {
+      ts:       new Date().toISOString(),
+      reaction: chosenReaction || '—',
+      message:  text || '(no message)'
+    };
+
+    var all = JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
+    all.push(entry);
+    localStorage.setItem(STORE_KEY, JSON.stringify(all));
+
+    sendBtn.disabled    = true;
+    sendBtn.textContent = 'sent ✦';
+    document.getElementById('msgBox').disabled = true;
+    document.querySelectorAll('.rbtn').forEach(function(b) { b.disabled = true; });
+    confirm.classList.add('show');
+  }
+
+  function showAdmin() {
+    var overlay   = document.getElementById('adminOverlay');
+    var container = document.getElementById('adminEntries');
+    var entries   = JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
+    overlay.style.display = 'block';
+    if (!entries.length) {
+      container.innerHTML = '<p class="admin-empty">No replies yet... 🌸</p>';
+      return;
+    }
+    container.innerHTML = '';
+    var rev = entries.slice().reverse();
+    rev.forEach(function(e, i) {
+      var d   = new Date(e.ts);
+      var fmt = d.toLocaleString('en-US', {
+        weekday: 'short', month: 'short', day: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      });
+      var num = entries.length - i;
+      var div = document.createElement('div');
+      div.className = 'admin-entry';
+      div.innerHTML =
+        '<div class="admin-meta">#' + num + ' · ' + fmt + '</div>' +
+        (e.reaction !== '—' ? '<div class="admin-tag">' + e.reaction + '</div>' : '') +
+        '<div>' + e.message + '</div>';
+      container.appendChild(div);
+    });
+  }
+
+  function closeAdmin() {
+    document.getElementById('adminOverlay').style.display = 'none';
+    history.replaceState(null, '', location.pathname);
+  }
+
+  function clearFeedback() {
+    if (!confirm("Clear all of Sarah's replies? This cannot be undone.")) return;
+    localStorage.removeItem(STORE_KEY);
+    document.getElementById('adminEntries').innerHTML = '<p class="admin-empty">All cleared.</p>';
+  }
+
+  window.addEventListener('hashchange', function() {
+    if (location.hash === '#admin') showAdmin();
+  });
+</script>
 </body>
 </html>
