@@ -10,19 +10,23 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --rose:   #ff7aa3;
-      --rose2:  #b64976;
-      --pale:   #fff2f6;
-      --ink:    #261a1f;
-      --panel:  rgba(255,255,255,0.14);
-      --border: rgba(255,255,255,0.24);
-      --muted:  #d2b2a4;
-      --gold:   #f3d18d;
+      --rose:   #ff9cb7;
+      --rose2:  #d1718f;
+      --pale:   #fff6f8;
+      --ink:    #2b1c21;
+      --panel:  rgba(255,250,246,0.24);
+      --border: rgba(255,236,239,0.34);
+      --muted:  #ab7d78;
+      --gold:   #f7dcb1;
+      --cream:  #fff2ef;
+      --paper:  rgba(255,245,242,0.92);
     }
 
     html, body {
       height: 100%;
-      background: var(--ink);
+      background: radial-gradient(circle at top left, rgba(255,183,201,0.18), transparent 30%),
+                  radial-gradient(circle at bottom right, rgba(255,215,195,0.16), transparent 28%),
+                  linear-gradient(170deg, #2b1c21 0%, #3c242c 45%, #2d1720 100%);
       color: var(--pale);
       font-family: 'Cormorant Garamond', serif;
       overflow-x: hidden;
@@ -92,9 +96,9 @@
 
     /* ── GATE ─────────────────────────────────────── */
     .gate-card {
-      background: rgba(255,255,255,0.16);
-      border: 1px solid rgba(255,255,255,0.22);
-      border-radius: 10px;
+      background: rgba(255,248,245,0.32);
+      border: 1px solid rgba(255,236,237,0.42);
+      border-radius: 14px;
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
       padding: clamp(2.5rem,6vw,4rem) clamp(1.8rem,5vw,3.5rem);
@@ -254,13 +258,13 @@
     }
     .rule span { font-size: 0.75rem; color: var(--rose); }
     .letter-card {
-      background: linear-gradient(145deg, rgba(255,255,255,0.20), rgba(255,238,242,0.24));
-      border: 1px solid rgba(255,255,255,0.20);
-      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(255,250,248,0.96), rgba(255,242,244,0.94));
+      border: 1px solid rgba(255,225,229,0.72);
+      border-radius: 18px;
       padding: clamp(2rem,5vw,3rem) clamp(1.5rem,5vw,2.8rem);
       line-height: 1.95;
       font-size: clamp(1.05rem,2.5vw,1.18rem);
-      color: rgba(253,232,236,0.92);
+      color: #3e1f25;
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       box-shadow: 0 30px 70px rgba(0,0,0,0.28);
@@ -271,21 +275,22 @@
       content: '✦';
       position: absolute;
       top: 1rem; right: 1.2rem;
-      font-size: 0.8rem;
-      color: rgba(232,80,106,0.25);
+      font-size: 0.9rem;
+      color: rgba(209,103,132,0.34);
     }
     .greeting {
       font-size: clamp(1.2rem,3vw,1.4rem);
       font-weight: 600;
-      color: var(--pale);
+      color: #6f3c49;
       margin-bottom: 1.5rem;
     }
     .letter-card p { margin-bottom: 1.15rem; }
     .letter-card p:last-child { margin-bottom: 0; }
+    .letter-card p { color: #4f2a31; }
     .sign-off {
       margin-top: 2rem;
       font-style: italic;
-      color: var(--rose);
+      color: #c95878;
       line-height: 1.7;
     }
     .reactions {
@@ -296,7 +301,7 @@
     .reactions .rlabel {
       font-style: italic;
       font-size: 0.95rem;
-      color: var(--muted);
+      color: #8f6f74;
       margin-bottom: 0.9rem;
     }
     .reaction-row {
@@ -341,11 +346,11 @@
     textarea {
       width: 100%;
       min-height: 105px;
-      padding: 0.9rem 1.1rem;
-      background: rgba(255,255,255,0.20);
-      border: 1px solid rgba(255,255,255,0.30);
-      border-radius: 10px;
-      color: var(--ink);
+      padding: 1rem 1.2rem;
+      background: rgba(255,250,246,0.95);
+      border: 1px solid rgba(233,190,196,0.55);
+      border-radius: 16px;
+      color: #3c1f24;
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.05rem;
       line-height: 1.75;
@@ -360,11 +365,11 @@
     }
     .send-btn {
       margin-top: 0.9rem;
-      padding: 0.8rem 2rem;
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.35);
+      padding: 0.85rem 2rem;
+      background: rgba(255,250,246,0.95);
+      border: 1px solid rgba(233,179,199,0.55);
       border-radius: 999px;
-      color: var(--ink);
+      color: #4f2531;
       font-family: 'Cormorant Garamond', serif;
       font-size: 1rem;
       font-style: italic;
@@ -376,7 +381,7 @@
       background: var(--rose);
       color: #fff;
       transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(255,122,154,0.28);
+      box-shadow: 0 12px 28px rgba(255,142,172,0.30);
     }
     .send-btn:disabled { opacity: 0.45; cursor: default; transform: none; }
     .confirm-msg {
@@ -404,50 +409,52 @@
       margin-bottom: 1.8rem;
     }
     .tab-btn {
-      background: rgba(255,255,255,0.14);
-      border: 1px solid rgba(255,255,255,0.18);
-      color: var(--ink);
+      background: rgba(255,246,244,0.85);
+      border: 1px solid rgba(255,234,237,0.65);
+      color: #41252f;
       padding: 0.75rem 1.15rem;
       border-radius: 999px;
       cursor: pointer;
       font-family: 'DM Mono', monospace;
       letter-spacing: 0.08em;
-      transition: background 0.25s, border-color 0.25s, color 0.25s;
+      transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.2s;
     }
     .tab-btn.active {
-      background: rgba(255,255,255,0.95);
-      border-color: rgba(255,255,255,0.95);
+      background: rgba(255,237,242,0.98);
+      border-color: rgba(255,210,223,0.95);
       color: var(--rose2);
-      box-shadow: 0 10px 24px rgba(255,255,255,0.18);
+      box-shadow: 0 12px 28px rgba(255,242,245,0.35);
+      transform: translateY(-1px);
     }
     .section.hidden { display: none; }
     .messages-header {
       text-align: center;
       max-width: 720px;
       margin: 0 auto 1.4rem;
-      color: var(--pale);
+      color: #3b222f;
     }
     .messages-header h2 {
       font-size: clamp(1.5rem,4vw,2rem);
       margin-bottom: 0.4rem;
     }
     .messages-header p {
-      color: rgba(253,232,236,0.78);
+      color: #6c4a55;
       line-height: 1.8;
       margin: 0;
     }
     .chat-card {
-      background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(232,80,106,0.12));
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255,248,244,0.95), rgba(255,241,243,0.95));
+      border: 1px solid rgba(255,221,228,0.72);
+      border-radius: 24px;
       padding: 1.5rem;
       margin-top: 1rem;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02), 0 26px 52px rgba(0,0,0,0.18);
+      box-shadow: 0 22px 48px rgba(0,0,0,0.14);
       min-height: 320px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 0.85rem;
+      position: relative;
     }
     .chat-list {
       display: flex;
@@ -455,33 +462,41 @@
       gap: 0.9rem;
     }
     .chat-bubble {
-      max-width: 80%;
+      max-width: 82%;
       padding: 1rem 1.15rem;
       border-radius: 24px;
       line-height: 1.75;
       word-break: break-word;
       border: 1px solid transparent;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+      font-style: italic;
+      letter-spacing: 0.01em;
     }
     .chat-bubble.you {
-      background: rgba(255,255,255,0.22);
-      color: var(--ink);
+      background: rgba(255,247,244,0.98);
+      color: #3e2428;
       margin-left: auto;
-      border-color: rgba(255,255,255,0.28);
+      border-color: rgba(218,167,172,0.45);
       border-top-right-radius: 6px;
     }
     .chat-bubble.her {
-      background: rgba(232,80,106,0.22);
-      color: #fff;
+      background: rgba(255,196,214,0.92);
+      color: #3f1f2e;
       margin-right: auto;
-      border-color: rgba(232,80,106,0.28);
+      border-color: rgba(209,108,135,0.55);
       border-top-left-radius: 6px;
     }
     .chat-bubble small {
       display: block;
       margin-top: 0.55rem;
       font-size: 0.78rem;
-      color: rgba(255,255,255,0.78);
+      color: rgba(111,71,81,0.86);
+    }
+    .chat-bubble.you small {
+      color: rgba(87,55,58,0.75);
+    }
+    .chat-bubble.her small {
+      color: rgba(95,45,68,0.78);
     }
     .chat-bubble.you small {
       color: rgba(38,26,31,0.68);
