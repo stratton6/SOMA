@@ -436,41 +436,51 @@
       margin: 0;
     }
     .chat-card {
-      background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(232,80,106,0.10));
-      border: 1px solid rgba(232,80,106,0.18);
+      background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(232,80,106,0.12));
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 20px;
       padding: 1.5rem;
       margin-top: 1rem;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02), 0 26px 52px rgba(0,0,0,0.20);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02), 0 26px 52px rgba(0,0,0,0.18);
       min-height: 320px;
       overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .chat-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
     }
     .chat-bubble {
-      max-width: 78%;
-      margin-bottom: 1rem;
-      padding: 1rem 1.1rem;
-      border-radius: 20px;
-      line-height: 1.65;
-      position: relative;
+      max-width: 80%;
+      padding: 1rem 1.15rem;
+      border-radius: 24px;
+      line-height: 1.75;
       word-break: break-word;
+      border: 1px solid transparent;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
     }
     .chat-bubble.you {
-      background: rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.22);
       color: var(--ink);
       margin-left: auto;
-      border-top-right-radius: 4px;
+      border-color: rgba(255,255,255,0.28);
+      border-top-right-radius: 6px;
     }
     .chat-bubble.her {
-      background: rgba(232,80,106,0.18);
+      background: rgba(232,80,106,0.22);
       color: #fff;
       margin-right: auto;
-      border-top-left-radius: 4px;
+      border-color: rgba(232,80,106,0.28);
+      border-top-left-radius: 6px;
     }
     .chat-bubble small {
       display: block;
-      margin-top: 0.5rem;
-      font-size: 0.76rem;
-      color: rgba(255,255,255,0.72);
+      margin-top: 0.55rem;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.78);
     }
     .chat-empty {
       color: rgba(255,255,255,0.48);
@@ -674,8 +684,9 @@
   </p>
 
   <p class="sign-off">
-    With care & faith in you,<br/>
-    Elisha 🌹
+    With care , love & faith in you,<br/>
+    Elisha 🌹<br>
+    L.O.L
   </p>
 </div>
 
@@ -693,7 +704,7 @@
         </div>
 
         <div class="feedback">
-          <label for="msgBox">leave a little note back... (only Elisha will see this)</label>
+          <label for="msgBox">leave a little note back... </label>
           <textarea id="msgBox" placeholder="write anything at all..."></textarea>
           <button class="send-btn" id="sendBtn" onclick="saveFeedback()">send it ✦</button>
           <p class="confirm-msg" id="confirmMsg">saved 🌹 he'll see it.</p>
@@ -828,8 +839,8 @@
       if (!stored) {
         var base = [{
           ts: new Date().toISOString(),
-          sender: 'her',
-          text: 'Hi Sarah, I wanted to leave a message here so you can reply when you are ready. I am with you in every step.',
+          sender: 'me',
+          text: 'Hi Sarah, I am starting our message thread here so we can write back and forth. Reply whenever you feel ready.',
         }];
         localStorage.setItem(CONV_KEY, JSON.stringify(base));
         return base;
