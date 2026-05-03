@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Sarah - From Elisha</title>
+    <meta name="description" content="A personal tribute to Sarah with heartfelt wishes for her exams">
+    <link rel="stylesheet" href="new_sarah.css">
+    <style>
+        /* 3D Card Effects */
+        .wish-card, .quote-card {
+            perspective: 1200px;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .wish-card:hover {
+            transform: translateY(-15px) rotateX(-8deg) rotateY(5deg) scale(1.05) !important;
+            box-shadow: 0 25px 60px rgba(255, 20, 147, 0.4) !important;
+        }
+
+        .quote-card:hover {
+            transform: translateX(15px) rotateY(8deg) scale(1.02) !important;
+            box-shadow: 0 15px 40px rgba(255, 20, 147, 0.3) !important;
+        }
+
+        /* Smooth entry animations */
+        .wishes-grid .wish-card {
+            animation: cardSlideIn 0.8s ease-out backwards;
+        }
+
+        .quotes-container .quote-card {
+            animation: quoteSlideIn 0.8s ease-out backwards;
+        }
+
+        .wishes-grid .wish-card:nth-child(1) { animation-delay: 0.1s; }
+        .wishes-grid .wish-card:nth-child(2) { animation-delay: 0.3s; }
+        .wishes-grid .wish-card:nth-child(3) { animation-delay: 0.5s; }
+
+        .quotes-container .quote-card:nth-child(1) { animation-delay: 0.2s; }
+        .quotes-container .quote-card:nth-child(2) { animation-delay: 0.4s; }
+        .quotes-container .quote-card:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes cardSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px) rotateX(20deg) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0) scale(1);
+            }
+        }
+
+        @keyframes quoteSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-40px) rotateY(-20deg) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) rotateY(0) scale(1);
+            }
+        }
+
+        /* Title animations */
+        .sarah-section-title {
+            animation: titleFadeIn 0.8s ease-out;
+        }
+
+        @keyframes titleFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Hero animation */
+        .sarah-hero h1 {
+            animation: heroTitleBounce 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes heroTitleBounce {
+            0% {
+                opacity: 0;
+                transform: translateY(-40px) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Reduced grid for fewer cards */
+        .wishes-grid {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="sarah-navbar">
+        <h1>✨ For My Sarah ✨</h1>
+        <a href="oldindex.html">← Back to SOMA</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="sarah-hero">
+        <div class="sarah-hero-content">
+            <h1>To Sarah</h1>
+            <p>The person who means everything to me</p>
+            <p class="sarah-tagline">💖 My biggest wish is to see you succeed in everything 💖</p>
+        </div>
+    </section>
+
+    <!-- Best Wishes Section -->
+    <section class="sarah-wishes-section">
+        <h2 class="sarah-section-title">My Wishes For You, Sarah</h2>
+        <div class="wishes-grid">
+            <div class="wish-card">
+                <div class="wish-icon">🎓</div>
+                <h3>Exam Excellence</h3>
+                <p>I truly believe you'll nail these exams. Your brilliance deserves to shine through. Walk in there with confidence—you're more than ready for this.</p>
+            </div>
+            <div class="wish-card">
+                <div class="wish-icon">💪</div>
+                <h3>Inner Strength</h3>
+                <p>I've watched you overcome so much. Your strength isn't just in your mind, but in your heart. Keep pushing—I believe in you completely.</p>
+            </div>
+            <div class="wish-card">
+                <div class="wish-icon">❤️</div>
+                <h3>My Unwavering Support</h3>
+                <p>Know that I'm here for you, always. Every success is yours, every challenge—I'm standing beside you. You're never alone in this.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inspirational Quotes Section -->
+    <section class="sarah-quotes-section">
+        <div class="quotes-container">
+            <h2 class="sarah-section-title">Words to Keep You Strong</h2>
+            
+            <div class="quote-card">
+                <p class="quote-text">"Success is not final, failure is not fatal. It is the courage to continue that counts."</p>
+                <p class="quote-author">— Winston Churchill</p>
+            </div>
+
+            <div class="quote-card">
+                <p class="quote-text">"The only way to do great work is to love what you do. Your potential is limitless when you're passionate."</p>
+                <p class="quote-author">— Steve Jobs</p>
+            </div>
+
+            <div class="quote-card">
+                <p class="quote-text">"Your education is your foundation. Build it strong, and I promise you, nothing will be impossible for you."</p>
+                <p class="quote-author">— Elisha Stratton</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Exam Countdown & Message -->
+    <section class="exam-wishes-section">
+        <h2 class="sarah-section-title">You've Got This, Sarah!</h2>
+        <div class="exam-countdown">
+            Your exams start tomorrow. I know you're ready. I know you'll be amazing.
+        </div>
+        <div class="exam-message">
+            <p>Dear Sarah,</p>
+            <p>Tomorrow you'll walk into that exam hall, and I want you to know something important: I believe in you. Not just as a friend, but completely and genuinely.</p>
+            <p>I've always known you were special. Your mind is sharp, your determination is incredible, and your heart is pure gold. Everything you've done to prepare has led to this moment.</p>
+            <p>I need you to believe in yourself the way I believe in you. Trust in all the work you've done. Trust in your abilities. And most importantly, trust that you will succeed.</p>
+            <p>As you sit down to answer those questions, remember: you are brilliant. You are capable. You are enough—and so much more than enough.</p>
+            <p>I'm not just saying this because it's exam time. I'm saying this because I truly, deeply believe in you and everything you can achieve.</p>
+            <p>Go out there, show them what you're made of, and shine like the star you've always been. I'll be thinking of you every moment, and I can't wait to see you succeed.</p>
+            <p style="margin-top: 2rem; font-weight: bold;">With all my love and deepest belief in you,<br>Elisha</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="sarah-footer">
+        <p>Made with <span class="footer-heart">💖</span> for Sarah</p>
+        <p>From Elisha Stratton</p>
+        <p>May your exams be the beginning of your greatest achievements yet.</p>
+        <p style="margin-top: 2rem; color: #ffb6d9;">✨ You are extraordinary to me ✨</p>
+    </footer>
+
+    <script src="new_sarah.js"></script>
+</body>
+
+</html>

@@ -4,154 +4,464 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Sarah - From Elisha</title>
+    <title>From Elisha</title>
     <meta name="description" content="A personal tribute to Sarah with heartfelt wishes for her exams">
-    <link rel="stylesheet" href="new_sarah.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ff1493;
+            --secondary: #ff69b4;
+            --accent: #ffb6d9;
+            --dark: #1a0a1a;
+            --darker: #0d0507;
+            --light: #fff;
+            --text: #f0f0f0;
+            --gold: #ffd700;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--darker);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Password Gate */
+        .password-gate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--darker) 0%, #2d1932 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            backdrop-filter: blur(10px);
+        }
+
+        .password-gate.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .gate-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 3D Modal */
+        .password-modal {
+            background: linear-gradient(135deg, rgba(26, 10, 26, 0.95), rgba(45, 25, 50, 0.95));
+            border: 3px solid var(--primary);
+            border-radius: 25px;
+            padding: 4rem 3rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 
+                0 0 60px rgba(255, 20, 147, 0.5),
+                0 30px 80px rgba(0, 0, 0, 0.7),
+                inset 0 0 30px rgba(255, 20, 147, 0.15);
+            animation: modalFloatIn 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-style: preserve-3d;
+            perspective: 1200px;
+        }
+
+        @keyframes modalFloatIn {
+            0% {
+                opacity: 0;
+                transform: translateY(60px) rotateX(15deg) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) rotateX(0) scale(1);
+            }
+        }
+
+        .password-modal-title {
+            font-size: 2.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { 
+                text-shadow: 0 0 15px var(--primary), 0 0 30px rgba(255, 20, 147, 0.4);
+                letter-spacing: 4px;
+            }
+            50% { 
+                text-shadow: 0 0 30px var(--primary), 0 0 50px rgba(255, 20, 147, 0.6);
+                letter-spacing: 5px;
+            }
+        }
+
+        .modal-subtitle {
+            color: var(--accent);
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        .password-input-wrapper {
+            position: relative;
+            margin-bottom: 3rem;
+            transform-style: preserve-3d;
+            perspective: 1200px;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 1.3rem 1.8rem;
+            background: linear-gradient(135deg, rgba(255, 20, 147, 0.12), rgba(255, 105, 180, 0.1));
+            border: 3px solid var(--secondary);
+            border-radius: 15px;
+            color: var(--text);
+            font-size: 1.15rem;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-weight: 600;
+            letter-spacing: 4px;
+            backdrop-filter: blur(8px);
+        }
+
+        .password-input:focus {
+            outline: none;
+            background: linear-gradient(135deg, rgba(255, 20, 147, 0.25), rgba(255, 105, 180, 0.2));
+            border-color: var(--primary);
+            box-shadow: 
+                0 0 35px rgba(255, 20, 147, 0.6),
+                inset 0 0 20px rgba(255, 20, 147, 0.15),
+                0 5px 30px rgba(255, 20, 147, 0.3);
+            transform: scale(1.05) translateZ(15px) rotateX(3deg);
+        }
+
+        .password-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .password-buttons {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+        }
+
+        .password-btn {
+            padding: 1.1rem 2.8rem;
+            border: 3px solid var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.3);
+        }
+
+        .password-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .password-btn:hover::before {
+            left: 100%;
+        }
+
+        .password-btn:hover {
+            transform: translateY(-6px) scale(1.08) rotateY(5deg);
+            box-shadow: 0 20px 50px rgba(255, 20, 147, 0.6);
+        }
+
+        .password-btn:active {
+            transform: translateY(-2px) scale(1.03);
+        }
+
+        .password-btn-cancel {
+            background: linear-gradient(135deg, #666, #888);
+            border-color: #888;
+        }
+
+        .password-btn-cancel:hover {
+            box-shadow: 0 20px 50px rgba(150, 150, 150, 0.4);
+        }
+
+        /* Error Message */
+        .error-message {
+            display: none;
+            color: #ff6b6b;
+            font-size: 1.05rem;
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            background: rgba(255, 107, 107, 0.2);
+            border: 3px solid #ff6b6b;
+            border-radius: 12px;
+            animation: shake 0.5s ease;
+            font-weight: 700;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0) rotateZ(0); }
+            10% { transform: translateX(-10px) rotateZ(-2deg); }
+            20% { transform: translateX(10px) rotateZ(2deg); }
+            30% { transform: translateX(-10px) rotateZ(-2deg); }
+            40% { transform: translateX(10px) rotateZ(2deg); }
+            50% { transform: translateX(-5px) rotateZ(-1deg); }
+            60% { transform: translateX(5px) rotateZ(1deg); }
+            70% { transform: translateX(-3px) rotateZ(-0.5deg); }
+            80% { transform: translateX(3px) rotateZ(0.5deg); }
+        }
+
+        /* Floating decorations */
+        .floating-orb {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.08;
+            pointer-events: none;
+            filter: blur(2px);
+        }
+
+        .orb-1 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, var(--primary), transparent);
+            top: -120px;
+            right: -120px;
+            animation: float1 12s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--secondary), transparent);
+            bottom: -100px;
+            left: -100px;
+            animation: float2 15s ease-in-out infinite;
+        }
+
+        @keyframes float1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-40px, -40px) scale(1.1); }
+        }
+
+        @keyframes float2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(40px, 40px) scale(1.1); }
+        }
+
+        .hint-text {
+            font-size: 0.95rem;
+            color: var(--accent);
+            margin-top: 2.5rem;
+            font-style: italic;
+            animation: hintBlink 3s ease-in-out infinite;
+            font-weight: 500;
+        }
+
+        @keyframes hintBlink {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        @media (max-width: 480px) {
+            .password-modal {
+                padding: 2.5rem 1.5rem;
+            }
+
+            .password-modal-title {
+                font-size: 2rem;
+            }
+
+            .password-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .password-btn {
+                width: 100%;
+                padding: 1rem 1.5rem;
+            }
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1) rotateZ(0deg); }
+            25% { transform: scale(1.15) rotateZ(5deg); }
+            75% { transform: scale(1.15) rotateZ(-5deg); }
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="sarah-navbar">
-        <h1>✨ For My Sarah ✨</h1>
-        <a href="oldindex.html">← Back to SOMA</a>
-    </nav>
+    <!-- Floating Decorations -->
+    <div class="floating-orb orb-1"></div>
+    <div class="floating-orb orb-2"></div>
 
-    <!-- Hero Section -->
-    <section class="sarah-hero">
-        <div class="sarah-hero-content">
-            <h1>To Sarah</h1>
-            <p>The person who means everything to me</p>
-            <p class="sarah-tagline">💖 My biggest wish is to see you succeed in everything 💖</p>
-        </div>
-    </section>
+    <!-- Password Gate -->
+    <div class="password-gate" id="passwordGate">
+        <div class="gate-content">
+            <div class="password-modal" id="passwordModal">
+                <div style="font-size: 4.5rem; margin-bottom: 1.5rem; animation: iconPulse 3s ease-in-out infinite; display: inline-block;">🔐</div>
+                <h2 class="password-modal-title">Enter The Secret</h2>
+                <p class="modal-subtitle">A message ...</p>
+                
+                <form id="passwordForm" onsubmit="checkPassword(event)">
+                    <div class="password-input-wrapper">
+                        <input 
+                            type="password" 
+                            id="passwordInput" 
+                            class="password-input" 
+                            placeholder="Type here..."
+                            required
+                            autocomplete="off"
+                        >
+                        <div class="error-message" id="errorMessage">❌ Oops! Not quite right...</div>
+                    </div>
 
-    <!-- Best Wishes Section -->
-    <section class="sarah-wishes-section">
-        <h2 class="sarah-section-title">My Wishes For You, Sarah</h2>
-        <div class="wishes-grid">
-            <div class="wish-card">
-                <div class="wish-icon">🎓</div>
-                <h3>Exam Excellence</h3>
-                <p>I truly believe you'll nail these exams. Your brilliance deserves to shine through. Walk in there with confidence—you're more than ready for this.</p>
-            </div>
-            <div class="wish-card">
-                <div class="wish-icon">💪</div>
-                <h3>Inner Strength</h3>
-                <p>I've watched you overcome so much. Your strength isn't just in your mind, but in your heart. Keep pushing—I believe in you completely.</p>
-            </div>
-            <div class="wish-card">
-                <div class="wish-icon">🌟</div>
-                <h3>Limitless Potential</h3>
-                <p>The world needs your brilliance, Sarah. I can see so much potential in you. Don't ever doubt what you can achieve because I never do.</p>
-            </div>
-            <div class="wish-card">
-                <div class="wish-icon">❤️</div>
-                <h3>My Unwavering Support</h3>
-                <p>Know that I'm here for you, always. Every success is yours, every challenge—I'm standing beside you. You're never alone in this.</p>
-            </div>
-            <div class="wish-card">
-                <div class="wish-icon">🚀</div>
-                <h3>Soaring High</h3>
-                <p>I want to see you reach for the stars and beyond. There's nothing you can't do when you put your mind to it. I'm rooting for you, always.</p>
-            </div>
-            <div class="wish-card">
-                <div class="wish-icon">✨</div>
-                <h3>Your Radiance</h3>
-                <p>Your intelligence, your kindness, your grace—they're all so real and beautiful. Keep being yourself. That's what makes you extraordinary to me.</p>
+                    <div class="password-buttons">
+                        <button type="submit" class="password-btn">✨ Unlock ✨</button>
+                        <button type="button" class="password-btn password-btn-cancel" onclick="guestAccess()">📚 Study</button>
+                    </div>
+                </form>
+
+                <p class="hint-text">💡 Think of something precious...</p>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Inspirational Quotes Section -->
-    <section class="sarah-quotes-section">
-        <div class="quotes-container">
-            <h2 class="sarah-section-title">Words to Keep You Strong</h2>
+    <script>
+        // Set focus on input when page loads
+        window.addEventListener('load', function() {
+            document.getElementById('passwordInput').focus();
+        });
+
+        function checkPassword(event) {
+            event.preventDefault();
+            const password = document.getElementById('passwordInput').value;
+            const correctPassword = 'zuriihh';
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (password === correctPassword) {
+                // Correct password - show success and redirect
+                const gate = document.getElementById('passwordGate');
+                gate.classList.add('hidden');
+                
+                setTimeout(() => {
+                    window.location.href = 'tribute.html';
+                }, 1000);
+            } else {
+                // Wrong password - show error
+                errorMessage.classList.add('show');
+                document.getElementById('passwordInput').value = '';
+                
+                // Clear error message after 3 seconds
+                setTimeout(() => {
+                    errorMessage.classList.remove('show');
+                }, 3000);
+                
+                // After error, eventually redirect to studies page
+                setTimeout(() => {
+                    const missedMsg = document.createElement('div');
+                    missedMsg.style.cssText = `
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: linear-gradient(135deg, #ff6b6b, #ff8787);
+                        color: #fff;
+                        padding: 3rem 4rem;
+                        border-radius: 20px;
+                        font-size: 1.8rem;
+                        font-weight: 900;
+                        text-align: center;
+                        z-index: 10002;
+                        box-shadow: 0 20px 60px rgba(255, 107, 107, 0.5);
+                        animation: missedSlideIn 0.6s ease-out;
+                    `;
+                    missedMsg.textContent = '😢 Oops! Try Again';
+                    document.body.appendChild(missedMsg);
+                    
+                    setTimeout(() => {
+                        missedMsg.style.opacity = '0';
+                        missedMsg.style.transition = 'opacity 0.4s ease';
+                        setTimeout(() => {
+                            window.location.href = 'oldindex.html';
+                        }, 400);
+                    }, 2000);
+                }, 5000);
+            }
+        }
+
+        function guestAccess() {
+            // Guest access redirects to SOMA studying content
+            const gate = document.getElementById('passwordGate');
+            gate.style.opacity = '0';
+            gate.style.transition = 'opacity 0.5s ease';
             
-            <div class="quote-card">
-                <p class="quote-text">"Success is not final, failure is not fatal. It is the courage to continue that counts."</p>
-                <p class="quote-author">— Winston Churchill</p>
-            </div>
+            setTimeout(() => {
+                window.location.href = 'oldindex.html';
+            }, 500);
+        }
 
-            <div class="quote-card">
-                <p class="quote-text">"The only way to do great work is to love what you do. Your potential is limitless when you're passionate."</p>
-                <p class="quote-author">— Steve Jobs</p>
-            </div>
+        // Allow Enter key to submit form
+        document.getElementById('passwordInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                document.getElementById('passwordForm').dispatchEvent(new Event('submit'));
+            }
+        });
 
-            <div class="quote-card">
-                <p class="quote-text">"You are capable of amazing things. Believe in yourself, stay focused, and make it happen."</p>
-                <p class="quote-author">— Elisha, with all my heart</p>
-            </div>
+        // Add animation styles dynamically
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes missedSlideIn {
+                0% {
+                    opacity: 0;
+                    transform: translate(-50%, -60%) rotateY(-20deg);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) rotateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 
-            <div class="quote-card">
-                <p class="quote-text">"Excellence is not a destination; it's a continuous journey. Keep pushing forward and never settle for less than you deserve."</p>
-                <p class="quote-author">— Ralph Marston</p>
-            </div>
-
-            <div class="quote-card">
-                <p class="quote-text">"The future belongs to those who believe in the beauty of their dreams. Sarah, I believe in your dreams, and I believe in you."</p>
-                <p class="quote-author">— Eleanor Roosevelt (& me)</p>
-            </div>
-
-            <div class="quote-card">
-                <p class="quote-text">"Your education is your foundation. Build it strong, and I promise you, nothing will be impossible for you."</p>
-                <p class="quote-author">— Elisha Stratton</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gallery Section (For Special Moments/Memories) -->
-    <section class="sarah-gallery-section">
-        <h2 class="sarah-section-title">Beautiful Moments</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <div class="gallery-placeholder">🎉</div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-placeholder">😊</div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-placeholder">📚</div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-placeholder">🌈</div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-placeholder">⭐</div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-placeholder">💫</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Exam Countdown & Message -->
-    <section class="exam-wishes-section">
-        <h2 class="sarah-section-title">You've Got This, Sarah!</h2>
-        <div class="exam-countdown">
-            Your exams start tomorrow. I know you're ready. I know you'll be amazing.
-        </div>
-        <div class="exam-message">
-            <p>Dear Sarah,</p>
-            <p>Tomorrow you'll walk into that exam hall, and I want you to know something important: I believe in you. Not just as a friend, but completely and genuinely.</p>
-            <p>I've always known you were special. Your mind is sharp, your determination is incredible, and your heart is pure gold. Everything you've done to prepare has led to this moment.</p>
-            <p>I need you to believe in yourself the way I believe in you. Trust in all the work you've done. Trust in your abilities. And most importantly, trust that you will succeed.</p>
-            <p>As you sit down to answer those questions, remember: you are brilliant. You are capable. You are enough—and so much more than enough.</p>
-            <p>I'm not just saying this because it's exam time. I'm saying this because I truly, deeply believe in you and everything you can achieve.</p>
-            <p>Go out there, show them what you're made of, and shine like the star you've always been. I'll be thinking of you every moment, and I can't wait to see you succeed.</p>
-            <p style="margin-top: 2rem; font-weight: bold;">With all my love and deepest belief in you,<br>Elisha</p>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="sarah-footer">
-        <p>Made with <span class="footer-heart">💖</span> for Sarah</p>
-        <p>From Elisha Stratton</p>
-        <p>May your exams be the beginning of your greatest achievements yet.</p>
-        <p style="margin-top: 2rem; color: #ffb6d9;">✨ You are extraordinary to me ✨</p>
-    </footer>
-
-    <script src="new_sarah.js"></script>
 </body>
+
+</html>
 
 </html>
