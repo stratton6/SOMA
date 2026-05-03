@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Letter for You</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --rose:  #e8506a;
+      --pale:  #fde8ec;
+      --ink:   #1c0f14;
+      --muted: #8a6070;
+      --cream: #fdf6f0;
+      --gold:  #c9a96e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      background: var(--ink);
+      color: var(--pale);
+      font-family: 'Cormorant Garamond', serif;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Grain */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Ambient bloom */
+    .bloom {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bloom-top {
+      width: 600px; height: 400px;
+      background: radial-gradient(ellipse, rgba(232,80,106,0.13) 0%, transparent 70%);
+      top: -100px; right: -100px;
+    }
+    .bloom-bot {
+      width: 500px; height: 400px;
+      background: radial-gradient(ellipse, rgba(201, 169, 110, 0.08) 0%, transparent 70%);
+      bottom: 0; left: -80px;
+    }
+
+    /* Page layout */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 4rem 2rem 6rem;
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+      animation: fadeUp 0.9s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .header .petal {
+      font-size: 2.6rem;
+      display: inline-block;
+      animation: spin 8s linear infinite;
+      opacity: 0.8;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    .header h1 {
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--pale);
+      letter-spacing: 0.04em;
+      margin-top: 0.8rem;
+      line-height: 1.2;
+    }
+    .header .date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      margin-top: 0.6rem;
+    }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2rem 0;
+      opacity: 0.35;
+    }
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--rose), transparent);
+    }
+    .divider span { font-size: 0.8rem; color: var(--rose); }
+
+    /* ── Letter ── */
+    .letter {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(232,80,106,0.15);
+      border-radius: 4px;
+      padding: 3rem 2.8rem;
+      line-height: 1.9;
+      font-size: 1.13rem;
+      color: rgba(253,232,236,0.9);
+      animation: fadeUp 0.9s 0.2s cubic-bezier(0.22,1,0.36,1) both;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+      position: relative;
+    }
+
+    /* Corner ornament */
+    .letter::before {
+      content: '✦';
+      position: absolute;
+      top: 1rem; right: 1.2rem;
+      font-size: 0.85rem;
+      color: rgba(232,80,106,0.3);
+    }
+
+    .letter .greeting {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--pale);
+      margin-bottom: 1.5rem;
+    }
+
+    .letter p {
+      margin-bottom: 1.2rem;
+    }
+    .letter p:last-child { margin-bottom: 0; }
+
+    .letter .sign-off {
+      margin-top: 2rem;
+      font-style: italic;
+      color: var(--rose);
+      font-size: 1.1rem;
+    }
+
+    /* ── Reaction buttons ── */
+    .reactions {
+      margin-top: 2.5rem;
+      text-align: center;
+      animation: fadeUp 0.9s 0.4s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .reactions p {
+      font-size: 0.92rem;
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .reaction-row {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .reaction-btn {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(232,80,106,0.2);
+      border-radius: 50px;
+      padding: 0.55rem 1.2rem;
+      color: var(--pale);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+    .reaction-btn:hover {
+      background: rgba(232,80,106,0.12);
+      border-color: rgba(232,80,106,0.5);
+      transform: translateY(-2px);
+    }
+    .reaction-btn.selected {
+      background: rgba(232,80,106,0.2);
+      border-color: var(--rose);
+      color: #fff;
+    }
+
+    /* ── Feedback form ── */
+    .feedback-section {
+      margin-top: 2.5rem;
+      animation: fadeUp 0.9s 0.5s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .feedback-section label {
+      display: block;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 0.7rem;
+    }
+    textarea {
+      width: 100%;
+      min-height: 110px;
+      padding: 1rem 1.2rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(232,80,106,0.2);
+      border-radius: 3px;
+      color: var(--pale);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    textarea::placeholder { color: rgba(255,255,255,0.15); font-style: italic; }
+    textarea:focus {
+      border-color: var(--rose);
+      box-shadow: 0 0 0 3px rgba(232,80,106,0.1);
+    }
+
+    .send-btn {
+      margin-top: 1rem;
+      padding: 0.8rem 2.2rem;
+      background: transparent;
+      border: 1px solid var(--rose);
+      border-radius: 3px;
+      color: var(--rose);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-style: italic;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .send-btn:hover {
+      background: var(--rose);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(232,80,106,0.3);
+    }
+
+    .confirmation {
+      display: none;
+      margin-top: 1rem;
+      font-style: italic;
+      color: var(--gold);
+      font-size: 0.95rem;
+    }
+    .confirmation.show { display: block; }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      margin-top: 4rem;
+      color: rgba(138,96,112,0.5);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      animation: fadeUp 0.9s 0.6s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Admin panel (hidden, access via ?admin) ── */
+    #adminPanel {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.96);
+      z-index: 9999;
+      overflow-y: auto;
+      padding: 3rem 2rem;
+    }
+    #adminPanel h2 {
+      font-size: 1.4rem;
+      color: var(--rose);
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+    #adminPanel .entry {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(232,80,106,0.2);
+      border-radius: 4px;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+      color: var(--pale);
+      line-height: 1.7;
+    }
+    #adminPanel .entry .meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+    #adminPanel .reaction-tag {
+      display: inline-block;
+      background: rgba(232,80,106,0.15);
+      border-radius: 20px;
+      padding: 0.2rem 0.8rem;
+      font-size: 0.8rem;
+      color: var(--rose);
+      margin-bottom: 0.5rem;
+    }
+    #adminPanel .close-admin {
+      position: fixed;
+      top: 1.5rem; right: 1.5rem;
+      background: var(--rose);
+      border: none;
+      border-radius: 50%;
+      width: 38px; height: 38px;
+      color: #fff;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+    #adminPanel .clear-btn {
+      margin-top: 1.5rem;
+      padding: 0.6rem 1.5rem;
+      background: transparent;
+      border: 1px solid #ff4444;
+      border-radius: 3px;
+      color: #ff4444;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+    #adminPanel .no-entries {
+      font-style: italic;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bloom bloom-top"></div>
+  <div class="bloom bloom-bot"></div>
+
+  <!-- Admin Panel (secret) -->
+  <div id="adminPanel">
+    <button class="close-admin" onclick="closeAdmin()">✕</button>
+    <h2>🌹 Sarah's Replies</h2>
+    <div id="adminEntries"></div>
+    <button class="clear-btn" onclick="clearAll()">Clear all entries</button>
+  </div>
+
+  <div class="page">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="petal">✿</div>
+      <h1>a letter, just for you</h1>
+      <p class="date" id="letterDate"></p>
+    </div>
+
+    <!-- Letter -->
+    <div class="divider"><span>✦</span></div>
+
+    <div class="letter">
+      <p class="greeting">Dear Sarah,</p>
+
+      <p>
+        I know exams have you feeling like the world is pressing in from all sides right now.
+        I just wanted you to know — from someone who sees you — that you are more than ready for this.
+      </p>
+
+      <p>
+        You carry this quiet kind of strength that most people overlook. But I haven't.
+        I've watched you figure things out, push through, and show up even when it's hard.
+        That doesn't stop being true because of a few difficult papers.
+      </p>
+
+      <p>
+        Don't be too hard on yourself. Rest when you need to. Eat something good.
+        And when you sit down to write, trust everything you've already put into this.
+      </p>
+
+      <p>
+        You've got this, Sarah. Genuinely and completely.
+      </p>
+
+      <p class="sign-off">
+        with care & faith in you,<br/>
+        Elisha 🌹
+      </p>
+    </div>
+
+    <div class="divider"><span>✦</span></div>
+
+    <!-- Reactions -->
+    <div class="reactions">
+      <p>how did this make you feel?</p>
+      <div class="reaction-row">
+        <button class="reaction-btn" onclick="selectReaction(this)">🥹 touched</button>
+        <button class="reaction-btn" onclick="selectReaction(this)">💪 motivated</button>
+        <button class="reaction-btn" onclick="selectReaction(this)">🌸 loved</button>
+        <button class="reaction-btn" onclick="selectReaction(this)">😊 happy</button>
+        <button class="reaction-btn" onclick="selectReaction(this)">🙈 shy</button>
+      </div>
+    </div>
+
+    <!-- Feedback -->
+    <div class="feedback-section">
+      <label for="feedbackText">leave a little note back... (only Elisha will see this)</label>
+      <textarea id="feedbackText" placeholder="write anything..."></textarea>
+      <button class="send-btn" onclick="saveFeedback()">send it ✦</button>
+      <p class="confirmation" id="confirmation">saved 🌹 he'll see it.</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">made with love · for sarah</div>
+
+  </div>
+
+  <script src="letter.js"></script>
+</body>
+</html>
