@@ -254,16 +254,16 @@
     }
     .rule span { font-size: 0.75rem; color: var(--rose); }
     .letter-card {
-      background: var(--panel);
-      border: 1px solid var(--border);
+      background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(232,80,106,0.12));
+      border: 1px solid rgba(255,255,255,0.08);
       border-radius: 5px;
       padding: clamp(2rem,5vw,3rem) clamp(1.5rem,5vw,2.8rem);
       line-height: 1.95;
       font-size: clamp(1.05rem,2.5vw,1.18rem);
-      color: rgba(253,232,236,0.88);
+      color: rgba(253,232,236,0.92);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+      box-shadow: 0 30px 70px rgba(0,0,0,0.28);
       position: relative;
       animation: fadeUp 0.8s 0.15s both;
     }
@@ -396,6 +396,126 @@
       letter-spacing: 0.1em;
       animation: fadeUp 0.8s 0.45s both;
     }
+    .page-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.8rem;
+    }
+    .tab-btn {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid transparent;
+      color: var(--pale);
+      padding: 0.75rem 1.15rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.08em;
+      transition: background 0.25s, border-color 0.25s, color 0.25s;
+    }
+    .tab-btn.active {
+      background: rgba(232,80,106,0.18);
+      border-color: rgba(232,80,106,0.32);
+      color: #fff;
+    }
+    .section.hidden { display: none; }
+    .messages-header {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 1.4rem;
+      color: var(--pale);
+    }
+    .messages-header h2 {
+      font-size: clamp(1.5rem,4vw,2rem);
+      margin-bottom: 0.4rem;
+    }
+    .messages-header p {
+      color: rgba(253,232,236,0.78);
+      line-height: 1.8;
+      margin: 0;
+    }
+    .chat-card {
+      background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(232,80,106,0.10));
+      border: 1px solid rgba(232,80,106,0.18);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-top: 1rem;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02), 0 26px 52px rgba(0,0,0,0.20);
+      min-height: 320px;
+      overflow-y: auto;
+    }
+    .chat-bubble {
+      max-width: 78%;
+      margin-bottom: 1rem;
+      padding: 1rem 1.1rem;
+      border-radius: 20px;
+      line-height: 1.65;
+      position: relative;
+      word-break: break-word;
+    }
+    .chat-bubble.you {
+      background: rgba(255,255,255,0.12);
+      color: var(--ink);
+      margin-left: auto;
+      border-top-right-radius: 4px;
+    }
+    .chat-bubble.her {
+      background: rgba(232,80,106,0.18);
+      color: #fff;
+      margin-right: auto;
+      border-top-left-radius: 4px;
+    }
+    .chat-bubble small {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.76rem;
+      color: rgba(255,255,255,0.72);
+    }
+    .chat-empty {
+      color: rgba(255,255,255,0.48);
+      font-style: italic;
+      text-align: center;
+      padding: 3.5rem 0;
+    }
+    .chat-actions {
+      margin-top: 1.6rem;
+      animation: fadeUp 0.8s 0.38s both;
+    }
+    .sender-row {
+      display: flex;
+      gap: 0.65rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .sender-btn {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--pale);
+      border-radius: 999px;
+      padding: 0.65rem 1rem;
+      cursor: pointer;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.9rem;
+      transition: all 0.24s;
+    }
+    .sender-btn.active {
+      background: rgba(232,80,106,0.18);
+      color: #fff;
+      border-color: rgba(232,80,106,0.32);
+    }
+    .chat-input {
+      min-height: 130px;
+    }
+    .chat-confirm {
+      margin-top: 0.8rem;
+      color: var(--gold);
+      font-size: 0.92rem;
+      display: none;
+      text-align: center;
+    }
+    .chat-confirm.show { display: block; }
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(22px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -512,15 +632,21 @@
   <div class="screen hidden" id="letterScreen">
     <div class="letter-wrap">
 
-      <div class="ltr-header">
-        <div class="ltr-petal">✿</div>
-        <h2>a letter, just for you</h2>
-        <p class="ltr-date" id="ltrDate"></p>
+      <div class="page-tabs">
+        <button class="tab-btn active" id="tabLetter" onclick="switchPage('letter')">letter</button>
+        <button class="tab-btn" id="tabMessages" onclick="switchPage('messages')">messages</button>
       </div>
 
-      <div class="rule"><span>✦</span></div>
+      <div class="section" id="letterSection">
+        <div class="ltr-header">
+          <div class="ltr-petal">✿</div>
+          <h2>a letter, just for you</h2>
+          <p class="ltr-date" id="ltrDate"></p>
+        </div>
 
-      <div class="letter-card">
+        <div class="rule"><span>✦</span></div>
+
+        <div class="letter-card">
   <p class="greeting">Hello Sarah, ✨</p>
   
   <p>
@@ -553,27 +679,50 @@
   </p>
 </div>
 
-      <div class="rule"><span>✦</span></div>
+        <div class="rule"><span>✦</span></div>
 
-      <div class="reactions">
-        <p class="rlabel">how did this make you feel?</p>
-        <div class="reaction-row">
-          <button class="rbtn" onclick="pickReaction(this)">🥹 touched</button>
-          <button class="rbtn" onclick="pickReaction(this)">💪 motivated</button>
-          <button class="rbtn" onclick="pickReaction(this)">🌸 loved</button>
-          <button class="rbtn" onclick="pickReaction(this)">😊 happy</button>
-          <button class="rbtn" onclick="pickReaction(this)">🙈 shy</button>
+        <div class="reactions">
+          <p class="rlabel">how did this make you feel?</p>
+          <div class="reaction-row">
+            <button class="rbtn" onclick="pickReaction(this)">🥹 touched</button>
+            <button class="rbtn" onclick="pickReaction(this)">💪 motivated</button>
+            <button class="rbtn" onclick="pickReaction(this)">🌸 loved</button>
+            <button class="rbtn" onclick="pickReaction(this)">😊 happy</button>
+            <button class="rbtn" onclick="pickReaction(this)">🙈 shy</button>
+          </div>
+        </div>
+
+        <div class="feedback">
+          <label for="msgBox">leave a little note back... (only Elisha will see this)</label>
+          <textarea id="msgBox" placeholder="write anything at all..."></textarea>
+          <button class="send-btn" id="sendBtn" onclick="saveFeedback()">send it ✦</button>
+          <p class="confirm-msg" id="confirmMsg">saved 🌹 he'll see it.</p>
+        </div>
+
+        <button class="send-btn" onclick="switchPage('messages')">open messages ✦</button>
+        <div class="ltr-footer">made with love · for sarah</div>
+      </div>
+
+      <div class="section hidden" id="messagesSection">
+        <div class="messages-header">
+          <h2>your conversation</h2>
+          <p>Read the messages, reply as you, or send a note as Sarah so the thread stays alive.</p>
+        </div>
+
+        <div class="chat-card">
+          <div id="chatList" class="chat-list"></div>
+        </div>
+
+        <div class="chat-actions">
+          <div class="sender-row">
+            <button class="sender-btn active" id="senderMe" onclick="pickSender('me')">Reply as you</button>
+            <button class="sender-btn" id="senderHer" onclick="pickSender('her')">Reply as Sarah</button>
+          </div>
+          <textarea id="chatInput" class="chat-input" placeholder="Write your next message..."></textarea>
+          <button class="send-btn" id="chatSendBtn" onclick="sendChat()">send message</button>
+          <p class="chat-confirm" id="chatConfirm">message saved.</p>
         </div>
       </div>
-
-      <div class="feedback">
-        <label for="msgBox">leave a little note back... (only Elisha will see this)</label>
-        <textarea id="msgBox" placeholder="write anything at all..."></textarea>
-        <button class="send-btn" id="sendBtn" onclick="saveFeedback()">send it ✦</button>
-        <p class="confirm-msg" id="confirmMsg">saved 🌹 he'll see it.</p>
-      </div>
-
-      <div class="ltr-footer">made with love · for sarah</div>
     </div>
   </div>
 
@@ -592,14 +741,22 @@
     const PASSWORD  = 'zuriihh';
     const STORE_KEY = 'sarah_feedback_v1';
 
-    const gateScreen   = document.getElementById('gateScreen');
-    const letterScreen = document.getElementById('letterScreen');
-    const pwdInput     = document.getElementById('pwdInput');
-    const gateCard     = document.getElementById('gateCard');
-    const gateError    = document.getElementById('gateError');
+    const gateScreen      = document.getElementById('gateScreen');
+    const letterScreen    = document.getElementById('letterScreen');
+    const pwdInput        = document.getElementById('pwdInput');
+    const gateCard        = document.getElementById('gateCard');
+    const gateError       = document.getElementById('gateError');
+    const letterSection   = document.getElementById('letterSection');
+    const messagesSection = document.getElementById('messagesSection');
+    const chatList        = document.getElementById('chatList');
+    const chatInput       = document.getElementById('chatInput');
+    const chatConfirm     = document.getElementById('chatConfirm');
+
+    const CONV_KEY = 'sarah_conversation_v1';
 
     let chosenReaction = null;
     let errorTimer     = null;
+    let currentSender  = 'me';
 
     /* Auto-focus & date */
     window.addEventListener('load', function () {
@@ -648,6 +805,78 @@
       document.querySelectorAll('.rbtn').forEach(function (b) { b.classList.remove('picked'); });
       btn.classList.add('picked');
       chosenReaction = btn.textContent.trim();
+    }
+
+    function switchPage(pageId) {
+      document.getElementById('tabLetter').classList.toggle('active', pageId === 'letter');
+      document.getElementById('tabMessages').classList.toggle('active', pageId === 'messages');
+      letterSection.classList.toggle('hidden', pageId !== 'letter');
+      messagesSection.classList.toggle('hidden', pageId !== 'messages');
+      if (pageId === 'messages') renderConversation();
+    }
+
+    function pickSender(sender) {
+      currentSender = sender;
+      document.querySelectorAll('.sender-btn').forEach(function (b) {
+        b.classList.toggle('active', b.id === 'sender' + (sender === 'me' ? 'Me' : 'Her'));
+      });
+      chatInput.focus();
+    }
+
+    function getConversation() {
+      var stored = localStorage.getItem(CONV_KEY);
+      if (!stored) {
+        var base = [{
+          ts: new Date().toISOString(),
+          sender: 'her',
+          text: 'Hi Sarah, I wanted to leave a message here so you can reply when you are ready. I am with you in every step.',
+        }];
+        localStorage.setItem(CONV_KEY, JSON.stringify(base));
+        return base;
+      }
+      return JSON.parse(stored);
+    }
+
+    function saveConversation(entries) {
+      localStorage.setItem(CONV_KEY, JSON.stringify(entries));
+    }
+
+    function formatTime(iso) {
+      var d = new Date(iso);
+      return d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function renderConversation() {
+      var entries = getConversation();
+      chatList.innerHTML = '';
+      if (!entries.length) {
+        chatList.innerHTML = '<div class="chat-empty">No messages yet. Start the thread by replying.</div>';
+        return;
+      }
+      entries.forEach(function (entry) {
+        var bubble = document.createElement('div');
+        bubble.className = 'chat-bubble ' + (entry.sender === 'me' ? 'you' : 'her');
+        bubble.innerHTML = '<div>' + entry.text + '</div>' +
+          '<small>' + (entry.sender === 'me' ? 'You · ' : 'Sarah · ') + formatTime(entry.ts) + '</small>';
+        chatList.appendChild(bubble);
+      });
+      chatList.scrollTop = chatList.scrollHeight;
+    }
+
+    function sendChat() {
+      var text = chatInput.value.trim();
+      if (!text) {
+        chatInput.style.borderColor = 'rgba(232,80,106,0.8)';
+        setTimeout(function () { chatInput.style.borderColor = ''; }, 1500);
+        return;
+      }
+      var entries = getConversation();
+      entries.push({ ts: new Date().toISOString(), sender: currentSender, text: text });
+      saveConversation(entries);
+      chatInput.value = '';
+      renderConversation();
+      chatConfirm.classList.add('show');
+      setTimeout(function () { chatConfirm.classList.remove('show'); }, 1900);
     }
 
     /* Save feedback */
